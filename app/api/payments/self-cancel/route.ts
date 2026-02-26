@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const event = payment.events as {
+    const event = payment.events as unknown as {
       id: string
       naziv: string
       datum: string

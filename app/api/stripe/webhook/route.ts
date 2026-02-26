@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
 
         // Send cancellation email to guest
         if (payment && payment.email) {
-          const eventRecord = payment.events as { naziv: string; datum: string }
+          const eventRecord = payment.events as unknown as { naziv: string; datum: string }
           const eventDate = new Date(eventRecord.datum).toLocaleDateString('hr-HR', {
             weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
           })

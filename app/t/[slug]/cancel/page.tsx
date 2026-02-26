@@ -29,7 +29,7 @@ export default async function CancelPage({ params, searchParams }: Props) {
   if (!payment) notFound()
 
   // Verify slug matches
-  const event = payment.events as { id: string; naziv: string; datum: string; slug: string }
+  const event = payment.events as unknown as { id: string; naziv: string; datum: string; slug: string }
   if (event.slug !== params.slug) notFound()
 
   const cancellableStatuses = ['pending', 'paid', 'confirmed', 'capturing']

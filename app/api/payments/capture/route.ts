@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const event = payment.events as {
+    const event = payment.events as unknown as {
       naziv: string
       datum: string
       owners: { email: string; ime: string; stripe_account_id: string }
