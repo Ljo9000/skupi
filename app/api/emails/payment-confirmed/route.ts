@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Payment not found or no email' }, { status: 404 })
   }
 
-  const event = payment.events as {
+  const event = payment.events as unknown as {
     naziv: string
     datum: string
     slug: string
