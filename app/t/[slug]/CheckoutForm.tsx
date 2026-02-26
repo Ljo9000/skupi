@@ -9,17 +9,7 @@ import {
 } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
-// Memoize per-account Stripe instances
-const stripeCache: Record<string, ReturnType<typeof loadStripe>> = {}
-function getStripeForAccount(accountId: string) {
-  if (!stripeCache[accountId]) {
-    stripeCache[accountId] = loadStripe(
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-      { stripeAccount: accountId }
-    )
-  }
-  return stripeCache[accountId]
-}
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 interface CheckoutFormProps {
   eventId: string
@@ -35,10 +25,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [paymentData, setPaymentData] = useState<{
-    clientSecret: string
-    stripeAccountId: string
-  } | null>(null)
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
 
   async function handleContinue(e: React.FormEvent) {
     e.preventDefault()
@@ -67,10 +54,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
         return
       }
 
-      setPaymentData({
-        clientSecret: data.clientSecret,
-        stripeAccountId: data.stripeAccountId,
-      })
+      setClientSecret(data.clientSecret)
     } catch {
       setError('Mrežna greška. Pokušajte ponovo.')
     } finally {
@@ -79,13 +63,12 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
   }
 
   // Step 2: Show Stripe Elements
-  if (paymentData) {
-    const stripePromise = getStripeForAccount(paymentData.stripeAccountId)
+  if (clientSecret) {
     return (
       <Elements
         stripe={stripePromise}
         options={{
-          clientSecret: paymentData.clientSecret,
+          clientSecret,
           appearance: {
             theme: 'stripe',
             variables: {
@@ -102,7 +85,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
           cijenaTotal={cijenaTotal}
           ime={ime}
           onSuccess={onSuccess}
-          onBack={() => setPaymentData(null)}
+          onBack={() => setClientSecret(null)}
         />
       </Elements>
     )

@@ -35,8 +35,7 @@ export async function POST(request: NextRequest) {
         *,
         events (
           id, naziv, datum, slug,
-          cijena_vlasnika, service_fee,
-          owners ( stripe_account_id )
+          cijena_vlasnika, service_fee
         )
       `)
       .eq('cancel_token', token)
@@ -62,12 +61,7 @@ export async function POST(request: NextRequest) {
       slug: string
       cijena_vlasnika: number
       service_fee: number
-      owners: { stripe_account_id: string } | { stripe_account_id: string }[]
     }
-
-    const stripeAccountId = Array.isArray(event.owners)
-      ? event.owners[0].stripe_account_id
-      : event.owners.stripe_account_id
 
     // Mark as cancelling first to prevent double-cancel
     await supabase
@@ -78,28 +72,21 @@ export async function POST(request: NextRequest) {
     // Cancel or refund via Stripe
     if (payment.stripe_payment_intent_id) {
       try {
-        const pi = await stripe.paymentIntents.retrieve(
-          payment.stripe_payment_intent_id,
-          {},
-          { stripeAccount: stripeAccountId }
-        )
+        const pi = await stripe.paymentIntents.retrieve(payment.stripe_payment_intent_id)
 
         if (pi.status === 'requires_capture' || pi.status === 'requires_payment_method' || pi.status === 'requires_confirmation') {
           // Not yet captured — cancel the intent (releases hold)
           await stripe.paymentIntents.cancel(
             payment.stripe_payment_intent_id,
-            { cancellation_reason: 'requested_by_customer' },
-            { stripeAccount: stripeAccountId }
+            { cancellation_reason: 'requested_by_customer' }
           )
         } else if (pi.status === 'succeeded' && pi.latest_charge) {
-          // Already captured — issue a refund
-          await stripe.refunds.create(
-            {
-              charge: pi.latest_charge as string,
-              reason: 'requested_by_customer',
-            },
-            { stripeAccount: stripeAccountId }
-          )
+          // Already captured — issue a refund (reverse_transfer returns funds to platform)
+          await stripe.refunds.create({
+            charge: pi.latest_charge as string,
+            reason: 'requested_by_customer',
+            reverse_transfer: true,
+          })
         }
         // If already cancelled, just proceed
       } catch (stripeErr) {

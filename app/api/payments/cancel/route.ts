@@ -28,14 +28,7 @@ export async function POST(req: NextRequest) {
 
   const { data: payment, error } = await supabaseAdmin
     .from('payments')
-    .select(`
-      *,
-      events (
-        naziv,
-        datum,
-        owners ( stripe_account_id )
-      )
-    `)
+    .select('*')
     .eq('id', payment_id)
     .single()
 
@@ -53,17 +46,10 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const event = payment.events as unknown as {
-      naziv: string
-      datum: string
-      owners: { stripe_account_id: string }
-    }
-
     // Cancel the PaymentIntent (releases uncaptured funds / voids the hold)
     await stripe.paymentIntents.cancel(
       payment.stripe_payment_intent_id,
-      { cancellation_reason: 'abandoned' },
-      { stripeAccount: event.owners.stripe_account_id }
+      { cancellation_reason: 'abandoned' }
     )
 
     await supabaseAdmin

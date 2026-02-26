@@ -80,24 +80,23 @@ export async function POST(request: NextRequest) {
     const iznos_vlasnika = event.cijena_vlasnika
     const iznos_fee = event.service_fee
 
-    // Create Stripe PaymentIntent via Connect
-    const paymentIntent = await stripe.paymentIntents.create(
-      {
-        amount: iznos_total,
-        currency: 'eur',
-        capture_method: captureMethod,
-        application_fee_amount: iznos_fee,
-        metadata: {
-          event_id: event.id,
-          event_slug: event.slug,
-          guest_ime: ime,
-          guest_email: email,
-        },
-        receipt_email: email,
-        description: event.naziv,
+    // Create Stripe PaymentIntent via Connect (destination charges)
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: iznos_total,
+      currency: 'eur',
+      capture_method: captureMethod,
+      application_fee_amount: iznos_fee,
+      transfer_data: { destination: stripeAccountId },
+      on_behalf_of: stripeAccountId,
+      metadata: {
+        event_id: event.id,
+        event_slug: event.slug,
+        guest_ime: ime,
+        guest_email: email,
       },
-      { stripeAccount: stripeAccountId }
-    )
+      receipt_email: email,
+      description: event.naziv,
+    })
 
     // Generate cancel token and create payment record
     const { error: insertError } = await supabase
@@ -117,14 +116,13 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       console.error('[payments/create] DB insert failed:', insertError)
-      await stripe.paymentIntents.cancel(paymentIntent.id, {}, { stripeAccount: stripeAccountId })
+      await stripe.paymentIntents.cancel(paymentIntent.id)
       return NextResponse.json({ error: 'Greška pri kreiranju uplate' }, { status: 500 })
     }
 
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
       captureMethod,
-      stripeAccountId,
       iznos_total,
     })
   } catch (error) {

@@ -30,14 +30,7 @@ export async function POST(req: NextRequest) {
   // Fetch payment + event data
   const { data: payment, error } = await supabaseAdmin
     .from('payments')
-    .select(`
-      *,
-      events (
-        naziv,
-        datum,
-        owners ( email, ime, stripe_account_id )
-      )
-    `)
+    .select('*')
     .eq('id', payment_id)
     .single()
 
@@ -50,17 +43,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const event = payment.events as unknown as {
-      naziv: string
-      datum: string
-      owners: { email: string; ime: string; stripe_account_id: string }
-    }
-
-    await stripe.paymentIntents.capture(
-      payment.stripe_payment_intent_id,
-      {},
-      { stripeAccount: event.owners.stripe_account_id }
-    )
+    await stripe.paymentIntents.capture(payment.stripe_payment_intent_id)
 
     // Status will be updated to 'confirmed' by webhook (payment_intent.succeeded)
     // But we optimistically mark it here too as a fallback
