@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: event.naziv,
       description,
       type: 'website',
-      images: [{ width: 1200, height: 630 }],
+      images: [],
     },
     twitter: {
       card: 'summary_large_image',
