@@ -1,10 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import PaymentClient from './PaymentClient'
 
 // Always fetch fresh data — never serve a cached version
 export const dynamic = 'force-dynamic'
+
+// Admin client bypasses RLS — needed to count payments on a public page
+function adminClient() {
+  return createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 interface Props {
   params: { slug: string }
@@ -64,15 +73,18 @@ export default async function PaymentPage({ params }: Props) {
 
   if (!event) notFound()
 
+  // Use admin client for payments — anon RLS blocks SELECT on payments table
+  const admin = adminClient()
+
   // Get paid count — both 'paid' and 'confirmed' are active reservations
-  const { count: paidCount } = await supabase
+  const { count: paidCount } = await admin
     .from('payments')
     .select('*', { count: 'exact', head: true })
     .eq('event_id', event.id)
     .in('status', ['paid', 'confirmed'])
 
   // Get paid participants (names only for privacy)
-  const { data: participants } = await supabase
+  const { data: participants } = await admin
     .from('payments')
     .select('id, ime, created_at')
     .eq('event_id', event.id)
