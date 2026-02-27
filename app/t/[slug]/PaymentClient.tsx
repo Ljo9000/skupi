@@ -59,6 +59,15 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
   // Handle redirect back from Stripe (3D Secure / bank redirect)
   useEffect(() => {
     if (searchParams.get('payment') === 'success') {
+      const guestName = searchParams.get('name') ?? undefined
+      // Increment counter for the redirect case too
+      setPaidCount(c => c + 1)
+      if (guestName) {
+        setParticipants(prev => [
+          ...prev,
+          { id: `local-${Date.now()}`, ime: decodeURIComponent(guestName), created_at: new Date().toISOString() },
+        ])
+      }
       setJustPaid(true)
       // Clean URL
       const url = new URL(window.location.href)
@@ -97,7 +106,15 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
     return () => { supabase.removeChannel(channel) }
   }, [event.id, supabase])
 
-  function handlePaymentSuccess() {
+  function handlePaymentSuccess(guestName?: string) {
+    // Immediately increment the local counter — don't wait for realtime or refresh
+    setPaidCount(c => c + 1)
+    if (guestName) {
+      setParticipants(prev => [
+        ...prev,
+        { id: `local-${Date.now()}`, ime: guestName, created_at: new Date().toISOString() },
+      ])
+    }
     setJustPaid(true)
   }
 
@@ -289,7 +306,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                       eventId={event.id}
                       naziv={event.naziv}
                       cijenaTotal={cijenaTotal}
-                      onSuccess={handlePaymentSuccess}
+                      onSuccess={(name) => handlePaymentSuccess(name)}
                       onFull={() => setPaidCount(event.max_sudionika)}
                     />
                   ) : (

@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import PaymentClient from './PaymentClient'
 
+// Always fetch fresh data — never serve a cached version
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: { slug: string }
 }

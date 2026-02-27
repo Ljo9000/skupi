@@ -15,7 +15,7 @@ interface CheckoutFormProps {
   eventId: string
   naziv: string
   cijenaTotal: number
-  onSuccess: () => void
+  onSuccess: (guestName: string) => void
   onFull?: () => void
 }
 
@@ -157,7 +157,7 @@ interface StripePaymentFormProps {
   cijenaTotal: number
   ime: string
   clientSecret: string
-  onSuccess: () => void
+  onSuccess: (guestName: string) => void
   onBack: () => void
 }
 
@@ -209,7 +209,7 @@ function StripePaymentForm({ naziv, cijenaTotal, ime, clientSecret, onSuccess, o
       }).catch(err => console.error('[CheckoutForm] mark-paid failed:', err))
     }
 
-    onSuccess()
+    onSuccess(ime)
     setLoading(false)
   }
 
