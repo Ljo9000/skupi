@@ -1,6 +1,10 @@
 // lib/email-templates.ts
 // HTML email templates for skupi.
 
+const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL
+  || process.env.NEXT_PUBLIC_BASE_URL
+  || 'https://skupi-kappa.vercel.app'
+
 export function paymentConfirmedEmail({
   guestName,
   eventName,
@@ -23,7 +27,7 @@ export function paymentConfirmedEmail({
             <td style="padding:0 40px 32px;text-align:center;">
               <p style="margin:0;font-size:12px;color:#9ca3af;">
                 Planovi su se promijenili?
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}/t/${slug}/cancel?token=${cancelToken}"
+                <a href="${APP_BASE_URL}/t/${slug}/cancel?token=${cancelToken}"
                    style="color:#ef4444;text-decoration:underline;">Odustani od rezervacije</a>
               </p>
             </td>
@@ -95,7 +99,7 @@ export function paymentConfirmedEmail({
           <!-- CTA -->
           <tr>
             <td style="padding:0 40px 24px;text-align:center;">
-              <a href="${process.env.NEXT_PUBLIC_BASE_URL}/t/${slug}"
+              <a href="${APP_BASE_URL}/t/${slug}"
                  style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:14px 32px;border-radius:8px;">
                 Pregledaj termin
               </a>
