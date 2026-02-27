@@ -55,6 +55,34 @@ export async function POST(request: NextRequest) {
         break
       }
 
+      // ── Manual capture: card authorized, hold placed ──────────────────────
+      // Fires when capture_method='manual' and guest completes payment.
+      // We mark as 'paid' so the tracker counts it immediately.
+      // The cron job will capture it later (→ payment_intent.succeeded).
+      case 'payment_intent.amount_capturable_updated': {
+        const pi = event.data.object as Stripe.PaymentIntent
+        const eventId = pi.metadata?.event_id
+
+        if (!eventId) {
+          console.warn('[webhook] amount_capturable_updated: no event_id in metadata')
+          break
+        }
+
+        const { error } = await supabase
+          .from('payments')
+          .update({ status: 'paid' })
+          .eq('stripe_payment_intent_id', pi.id)
+          .eq('status', 'pending')
+
+        if (error) {
+          console.error('[webhook] amount_capturable_updated DB error:', error)
+        } else {
+          console.log(`[webhook] Manual capture hold placed: PI=${pi.id} event=${eventId}`)
+        }
+
+        break
+      }
+
       // ── Payment succeeded / captured ──────────────────────────────────────
       case 'payment_intent.succeeded': {
         const pi = event.data.object as Stripe.PaymentIntent
@@ -65,7 +93,8 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        // Mark payment as confirmed — this fires the DB trigger that sends email
+        // Mark payment as confirmed — covers both automatic (pending→confirmed)
+        // and manual capture after cron (paid→confirmed)
         const { data: updatedPayment, error: payError } = await supabase
           .from('payments')
           .update({
@@ -73,7 +102,7 @@ export async function POST(request: NextRequest) {
             stripe_charge_id: pi.latest_charge as string | null,
           })
           .eq('stripe_payment_intent_id', pi.id)
-          .in('status', ['pending', 'capturing'])
+          .in('status', ['pending', 'paid', 'capturing'])
           .select()
           .single()
 

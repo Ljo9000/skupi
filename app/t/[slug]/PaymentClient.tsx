@@ -82,7 +82,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
         },
         (payload) => {
           const p = payload.new as { id: string; ime: string; status: string; created_at: string }
-          if (p.status === 'paid') {
+          if (p.status === 'paid' || p.status === 'confirmed') {
             // Only count if not already in list
             setParticipants((prev) => {
               if (prev.some((x) => x.id === p.id)) return prev

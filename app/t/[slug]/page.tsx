@@ -61,19 +61,19 @@ export default async function PaymentPage({ params }: Props) {
 
   if (!event) notFound()
 
-  // Get paid count
+  // Get paid count — both 'paid' and 'confirmed' are active reservations
   const { count: paidCount } = await supabase
     .from('payments')
     .select('*', { count: 'exact', head: true })
     .eq('event_id', event.id)
-    .eq('status', 'paid')
+    .in('status', ['paid', 'confirmed'])
 
   // Get paid participants (names only for privacy)
   const { data: participants } = await supabase
     .from('payments')
     .select('id, ime, created_at')
     .eq('event_id', event.id)
-    .eq('status', 'paid')
+    .in('status', ['paid', 'confirmed'])
     .order('created_at', { ascending: true })
 
   const ownerName = Array.isArray(event.owners)

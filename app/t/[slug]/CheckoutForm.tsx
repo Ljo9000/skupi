@@ -19,6 +19,12 @@ interface CheckoutFormProps {
   onFull?: () => void
 }
 
+// Extract payment_intent ID from client_secret (format: pi_xxx_secret_yyy)
+function piIdFromSecret(secret: string): string | null {
+  const match = secret.match(/^(pi_[^_]+)_secret_/)
+  return match ? match[1] : null
+}
+
 // ── Step 1: Collect name + email, create PaymentIntent ─────────────────────
 export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, onFull }: CheckoutFormProps) {
   const [ime, setIme] = useState('')
@@ -84,6 +90,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
           naziv={naziv}
           cijenaTotal={cijenaTotal}
           ime={ime}
+          clientSecret={clientSecret}
           onSuccess={onSuccess}
           onBack={() => setClientSecret(null)}
         />
@@ -149,11 +156,12 @@ interface StripePaymentFormProps {
   naziv: string
   cijenaTotal: number
   ime: string
+  clientSecret: string
   onSuccess: () => void
   onBack: () => void
 }
 
-function StripePaymentForm({ naziv, cijenaTotal, ime, onSuccess, onBack }: StripePaymentFormProps) {
+function StripePaymentForm({ naziv, cijenaTotal, ime, clientSecret, onSuccess, onBack }: StripePaymentFormProps) {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
@@ -190,7 +198,17 @@ function StripePaymentForm({ naziv, cijenaTotal, ime, onSuccess, onBack }: Strip
       return
     }
 
-    // Payment confirmed without redirect
+    // Payment confirmed — immediately mark as paid in DB so tracker updates
+    // without waiting for the async Stripe webhook.
+    const piId = piIdFromSecret(clientSecret)
+    if (piId) {
+      fetch('/api/payments/mark-paid', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_intent_id: piId }),
+      }).catch(err => console.error('[CheckoutForm] mark-paid failed:', err))
+    }
+
     onSuccess()
     setLoading(false)
   }
