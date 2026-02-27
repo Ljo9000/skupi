@@ -2,7 +2,7 @@
 // Notification service: email (Resend) + WhatsApp/Viber (Infobip, optional)
 // Infobip channels only activate when INFOBIP_API_KEY + INFOBIP_BASE_URL are set.
 
-import { resend } from '@/lib/resend'
+import { resend, EMAIL_FROM } from '@/lib/resend'
 import { spotAvailableEmail } from '@/lib/email-templates'
 
 export interface WaitingListEntry {
@@ -116,7 +116,7 @@ export async function notifySpotAvailable(
   // 1. Email (always)
   const emailPromise = resend.emails
     .send({
-      from: 'skupi. <noreply@skupi.app>',
+      from: EMAIL_FROM,
       to: entry.email,
       subject: `🎉 Oslobodilo se mjesto — ${event.naziv}`,
       html: spotAvailableEmail({

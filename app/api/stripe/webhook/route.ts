@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getStripe } from '@/lib/stripe'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
 import Stripe from 'stripe'
-import { resend } from '@/lib/resend'
+import { resend, EMAIL_FROM } from '@/lib/resend'
 import { paymentConfirmedEmail, paymentCancelledEmail } from '@/lib/email-templates'
 
 function adminClient() {
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
             style: 'currency', currency: 'EUR',
           })
           resend.emails.send({
-            from: 'skupi. <noreply@skupi.app>',
+            from: EMAIL_FROM,
             to: existingPayment.email,
             subject: `✅ Potvrda rezervacije — ${ev.naziv}`,
             html: paymentConfirmedEmail({
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
           })
 
           resend.emails.send({
-            from: 'skupi. <noreply@skupi.app>',
+            from: EMAIL_FROM,
             to: payment.email,
             subject: `Plaćanje otkazano — ${eventRecord.naziv}`,
             html: paymentCancelledEmail({

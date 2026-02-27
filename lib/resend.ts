@@ -1,7 +1,13 @@
 // lib/resend.ts
 // Resend email client (lazy init like Stripe)
+//
+// FROM address: set RESEND_FROM in Vercel env vars once your domain is verified.
+// Until then, defaults to Resend's built-in test address (works without domain).
+// Example: RESEND_FROM=skupi. <noreply@skupi.app>
 
 import { Resend } from 'resend'
+
+export const EMAIL_FROM = process.env.RESEND_FROM || 'skupi. <onboarding@resend.dev>'
 
 let _resend: Resend | null = null
 

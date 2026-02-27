@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { resend } from '@/lib/resend'
+import { resend, EMAIL_FROM } from '@/lib/resend'
 import { eventFullEmail } from '@/lib/email-templates'
 
 const supabaseAdmin = createClient(
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await resend.emails.send({
-      from: 'skupi. <noreply@skupi.app>',
+      from: EMAIL_FROM,
       to: owner_email,
       subject: `🎉 "${event_naziv}" je pun!`,
       html: eventFullEmail({
