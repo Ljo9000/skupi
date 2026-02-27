@@ -3,7 +3,7 @@ import { getStripe } from '@/lib/stripe'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 import { resend } from '@/lib/resend'
-import { paymentCancelledEmail } from '@/lib/email-templates'
+import { paymentConfirmedEmail, paymentCancelledEmail } from '@/lib/email-templates'
 
 function adminClient() {
   return createSupabaseAdmin(
@@ -93,9 +93,17 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        // Mark payment as confirmed — covers both automatic (pending→confirmed)
-        // and manual capture after cron (paid→confirmed)
-        const { data: updatedPayment, error: payError } = await supabase
+        // Fetch payment BEFORE updating to check previous status
+        // (mark-paid already sent email if status was 'paid')
+        const { data: existingPayment } = await supabase
+          .from('payments')
+          .select('id, ime, email, iznos_total, cancel_token, status, events ( naziv, datum, slug )')
+          .eq('stripe_payment_intent_id', pi.id)
+          .in('status', ['pending', 'paid', 'capturing'])
+          .single()
+
+        // Mark payment as confirmed
+        const { error: payError } = await supabase
           .from('payments')
           .update({
             status: 'confirmed',
@@ -103,8 +111,6 @@ export async function POST(request: NextRequest) {
           })
           .eq('stripe_payment_intent_id', pi.id)
           .in('status', ['pending', 'paid', 'capturing'])
-          .select()
-          .single()
 
         if (payError) {
           console.error('[webhook] Failed to mark payment as confirmed:', payError)
@@ -113,17 +119,33 @@ export async function POST(request: NextRequest) {
 
         console.log(`[webhook] Payment confirmed: PI=${pi.id} event=${eventId}`)
 
-        // Trigger confirmation email
-        if (updatedPayment) {
-          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/emails/payment-confirmed`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-cron-secret': process.env.CRON_SECRET || '',
-            },
-            body: JSON.stringify({ payment_id: updatedPayment.id }),
-          }).catch(e => console.error('[webhook] Email trigger failed:', e))
+        // Send confirmation email inline — only if mark-paid hasn't sent it yet.
+        // mark-paid sends when status goes pending→paid.
+        // Here we send only if status was 'pending' or 'capturing' (3DS redirect path).
+        if (existingPayment?.email && existingPayment.status !== 'paid') {
+          const ev = existingPayment.events as unknown as { naziv: string; datum: string; slug: string }
+          const eventDate = new Date(ev.datum).toLocaleDateString('hr-HR', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+          })
+          const amount = (existingPayment.iznos_total / 100).toLocaleString('hr-HR', {
+            style: 'currency', currency: 'EUR',
+          })
+          resend.emails.send({
+            from: 'skupi. <noreply@skupi.app>',
+            to: existingPayment.email,
+            subject: `✅ Potvrda rezervacije — ${ev.naziv}`,
+            html: paymentConfirmedEmail({
+              guestName: existingPayment.ime,
+              eventName: ev.naziv,
+              eventDate,
+              amount,
+              slug: ev.slug,
+              cancelToken: existingPayment.cancel_token,
+            }),
+          }).catch(e => console.error('[webhook] Confirmation email failed:', e))
         }
+
+        const updatedPayment = existingPayment
 
         // Check if event is now full
         const { data: eventData } = await supabase
