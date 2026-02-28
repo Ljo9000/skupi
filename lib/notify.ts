@@ -101,7 +101,7 @@ export async function notifySpotAvailable(
   entry: WaitingListEntry,
   event: EventInfo
 ) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://skupi.app'
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://skupi.app').replace(/\/+$/, '')
   const paymentUrl = `${baseUrl}/t/${event.slug}`
 
   const eventDate = new Date(event.datum).toLocaleDateString('hr-HR', {

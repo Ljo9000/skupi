@@ -1,9 +1,11 @@
 // lib/email-templates.ts
 // HTML email templates for skupi.
 
-const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_APP_URL
   || process.env.NEXT_PUBLIC_BASE_URL
   || 'https://skupi-kappa.vercel.app'
+).replace(/\/+$/, '')
 
 export function paymentConfirmedEmail({
   guestName,

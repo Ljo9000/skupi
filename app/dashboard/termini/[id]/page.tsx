@@ -6,7 +6,7 @@ import QRCodeCard from '@/components/QRCodeCard'
 import CopyButton from '@/components/CopyButton'
 import EventActionButtons from '@/components/EventActionButtons'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(/\/+$/, '')
 
 export default async function TerminDetaljPage({
   params,
