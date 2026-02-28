@@ -23,7 +23,7 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
 
   const navLinks = [
     { href: '/dashboard',         label: 'Pregled',  icon: <LayoutDashboard size={15} /> },
-    { href: '/dashboard/termini', label: 'Termini', icon: <Calendar size={15} /> },
+    { href: '/dashboard/termini', label: 'Kalendar', icon: <Calendar size={15} /> },
   ]
 
   return (
