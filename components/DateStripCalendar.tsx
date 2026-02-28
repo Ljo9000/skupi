@@ -31,7 +31,6 @@ const HR_MONTHS_GENITIVE = [
 // Week starts Monday in Croatia — Mon=0 … Sun=6
 const HR_DAYS_SHORT = ['Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub', 'Ned']
 
-// JS getDay(): 0=Sun,1=Mon…6=Sat → convert to Mon-first index
 function jsDayToHrIndex(jsDay: number): number {
   return jsDay === 0 ? 6 : jsDay - 1
 }
@@ -40,10 +39,25 @@ const HR_WEEKDAY_FULL = [
   'ponedjeljak', 'utorak', 'srijeda', 'četvrtak', 'petak', 'subota', 'nedjelja',
 ]
 
-const STATUS_DOT_COLOR: Record<EventStatus, string> = {
+// Only active + confirmed shown in calendar — cancelled excluded everywhere
+const STATUS_DOT_COLOR: Record<'active' | 'confirmed', string> = {
   active: '#22C55E',
   confirmed: '#8B6FFF',
-  cancelled: '#EF4444',
+}
+
+const STATUS_BORDER_COLOR: Record<'active' | 'confirmed', string> = {
+  active: '#22C55E',
+  confirmed: '#8B6FFF',
+}
+
+const STATUS_SECTION_LABEL: Record<'active' | 'confirmed', string> = {
+  active: 'Aktivni',
+  confirmed: 'Potvrđeni',
+}
+
+const STATUS_SECTION_COLOR: Record<'active' | 'confirmed', { color: string; bg: string }> = {
+  active:    { color: '#22C55E', bg: 'rgba(34,197,94,0.1)' },
+  confirmed: { color: '#8B6FFF', bg: 'rgba(139,111,255,0.1)' },
 }
 
 function isSameDay(a: Date, b: Date): boolean {
@@ -59,6 +73,9 @@ function stripTime(d: Date): Date {
 }
 
 export default function DateStripCalendar({ events }: { events: Event[] }) {
+  // Exclude cancelled everywhere in the calendar
+  const visibleEvents = events.filter(e => e.status !== 'cancelled')
+
   const todayRaw = new Date()
   const today = stripTime(todayRaw)
 
@@ -69,7 +86,6 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
 
   const stripRef = useRef<HTMLDivElement>(null)
 
-  // All days in the viewed month
   const daysInMonth = new Date(
     currentMonth.getFullYear(),
     currentMonth.getMonth() + 1,
@@ -80,16 +96,18 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
     new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i + 1)
   )
 
-  // Helpers
   const getEventsForDay = (day: Date) =>
-    events.filter(e => isSameDay(stripTime(new Date(e.datum)), day))
+    visibleEvents.filter(e => isSameDay(stripTime(new Date(e.datum)), day))
 
+  // Deadlines only for visible (non-cancelled) events
   const getDeadlinesForDay = (day: Date) =>
-    events.filter(e => isSameDay(stripTime(new Date(e.rok_uplate)), day))
+    visibleEvents.filter(e => isSameDay(stripTime(new Date(e.rok_uplate)), day))
 
   const selectedDayEvents = getEventsForDay(selectedDate)
+  const activeOnDay    = selectedDayEvents.filter(e => e.status === 'active')
+  const confirmedOnDay = selectedDayEvents.filter(e => e.status === 'confirmed')
+  const totalOnDay     = selectedDayEvents.length
 
-  // Scroll selected cell into view whenever date or month changes
   useEffect(() => {
     const strip = stripRef.current
     if (!strip) return
@@ -99,7 +117,6 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
     }
   }, [selectedDate, currentMonth])
 
-  // Human-readable day heading
   const selectedDayLabel = () => {
     const hrIdx = jsDayToHrIndex(selectedDate.getDay())
     const weekday = HR_WEEKDAY_FULL[hrIdx]
@@ -148,24 +165,16 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', paddingBottom: '4px' }}
       >
         {days.map(day => {
-          const dayEvents = getEventsForDay(day)
+          const dayEvents    = getEventsForDay(day)
           const dayDeadlines = getDeadlinesForDay(day)
-          const isToday = isSameDay(day, today)
-          const isSelected = isSameDay(day, selectedDate)
+          const isToday      = isSameDay(day, today)
+          const isSelected   = isSameDay(day, selectedDate)
 
-          // Build up to 3 unique dot colours
+          // Dots: active → green, confirmed → purple, deadline → amber
           const dots: string[] = []
-          const seenStatus = new Set<EventStatus>()
-          for (const e of dayEvents) {
-            if (!seenStatus.has(e.status)) {
-              dots.push(STATUS_DOT_COLOR[e.status])
-              seenStatus.add(e.status)
-            }
-          }
-          // Amber deadline dot — only if not already maxed out
-          if (dayDeadlines.length > 0 && dots.length < 3) {
-            dots.push('#F59E0B')
-          }
+          if (dayEvents.some(e => e.status === 'active'))    dots.push(STATUS_DOT_COLOR.active)
+          if (dayEvents.some(e => e.status === 'confirmed')) dots.push(STATUS_DOT_COLOR.confirmed)
+          if (dayDeadlines.length > 0 && dots.length < 3)   dots.push('#F59E0B')
 
           const hrIdx = jsDayToHrIndex(day.getDay())
 
@@ -201,7 +210,6 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
               >
                 {day.getDate()}
               </span>
-              {/* Dots row — always reserve 6px height so cells stay same size */}
               <div className="flex gap-0.5 items-center" style={{ height: '6px' }}>
                 {dots.map((color, i) => (
                   <div
@@ -221,20 +229,20 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
 
       {/* ── Day panel ── */}
       <div>
+        {/* Day heading + total count */}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-semibold text-white">{selectedDayLabel()}</h2>
-          {selectedDayEvents.length > 0 && (
+          {totalOnDay > 0 && (
             <span
               className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
               style={{ backgroundColor: 'rgba(108,71,255,0.13)', color: '#6C47FF' }}
             >
-              {selectedDayEvents.length}{' '}
-              {selectedDayEvents.length === 1 ? 'termin' : 'termina'}
+              {totalOnDay} {totalOnDay === 1 ? 'termin' : 'termina'}
             </span>
           )}
         </div>
 
-        {selectedDayEvents.length === 0 ? (
+        {totalOnDay === 0 ? (
           <div
             className="rounded-2xl p-10 text-center"
             style={{ backgroundColor: '#13162A', border: '1px dashed #1C2040' }}
@@ -242,14 +250,51 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
             <p className="text-[#6B7299] text-sm">Nema termina za ovaj dan 📭</p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {selectedDayEvents.map(event => (
-              <EventCard
-                key={event.id}
-                event={event}
-                isPast={event.status === 'cancelled'}
-              />
-            ))}
+          <div className="space-y-6">
+            {/* Render active then confirmed, each in its own labelled group */}
+            {(['active', 'confirmed'] as const).map(status => {
+              const group = status === 'active' ? activeOnDay : confirmedOnDay
+              if (group.length === 0) return null
+              const cfg = STATUS_SECTION_COLOR[status]
+              const borderColor = STATUS_BORDER_COLOR[status]
+
+              return (
+                <div key={status}>
+                  {/* Section label — only shown when both groups exist */}
+                  {activeOnDay.length > 0 && confirmedOnDay.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <span
+                        className="text-[11px] font-semibold uppercase tracking-[0.08em]"
+                        style={{ color: cfg.color }}
+                      >
+                        {STATUS_SECTION_LABEL[status]}
+                      </span>
+                      <span
+                        className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                        style={{ backgroundColor: cfg.bg, color: cfg.color }}
+                      >
+                        {group.length}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    {group.map(event => (
+                      // Coloured left-border wrapper (option C) around each EventCard
+                      <div
+                        key={event.id}
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                          borderLeft: `3px solid ${borderColor}`,
+                        }}
+                      >
+                        <EventCard event={event} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         )}
       </div>
