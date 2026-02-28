@@ -38,9 +38,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Mark as 'paid' — only from 'pending' to prevent double-updates
-    // Returns the updated row so we can send the email
-    const { data: payment, error } = await supabase
+    // Try to mark as 'paid' — only transitions from 'pending' to avoid double-updates
+    const { data: updatedPayment } = await supabase
       .from('payments')
       .update({ status: 'paid' })
       .eq('stripe_payment_intent_id', payment_intent_id)
@@ -51,15 +50,33 @@ export async function POST(request: NextRequest) {
       `)
       .single()
 
-    if (error || !payment) {
-      // If no row updated, payment was already processed (idempotent — OK)
-      console.log(`[mark-paid] No update needed for PI=${payment_intent_id} (already processed)`)
+    // If no row was updated (webhook already set status to 'paid' or 'confirmed'),
+    // fetch the payment anyway — we still need to send the confirmation email.
+    let payment = updatedPayment
+    if (!payment) {
+      const { data: existingPayment } = await supabase
+        .from('payments')
+        .select(`
+          id, ime, email, iznos_total, cancel_token,
+          events ( naziv, datum, slug )
+        `)
+        .eq('stripe_payment_intent_id', payment_intent_id)
+        .in('status', ['paid', 'confirmed', 'capturing'])
+        .single()
+      payment = existingPayment
+      if (payment) {
+        console.log(`[mark-paid] Payment already processed, fetched for email: PI=${payment_intent_id}`)
+      }
+    } else {
+      console.log(`[mark-paid] Payment marked as paid: PI=${payment_intent_id}`)
+    }
+
+    if (!payment) {
+      console.warn(`[mark-paid] Payment not found for PI=${payment_intent_id}`)
       return NextResponse.json({ success: true })
     }
 
-    console.log(`[mark-paid] Payment marked as paid: PI=${payment_intent_id}`)
-
-    // Send confirmation email immediately — don't wait for webhook
+    // Send confirmation email — always, since this is the client-side fast path
     if (payment.email) {
       const event = payment.events as unknown as { naziv: string; datum: string; slug: string }
 
@@ -70,7 +87,8 @@ export async function POST(request: NextRequest) {
         style: 'currency', currency: 'EUR',
       })
 
-      resend.emails.send({
+      // Resend SDK v4 returns {data, error} — must check result.error, not just .catch()
+      const result = await resend.emails.send({
         from: EMAIL_FROM,
         to: payment.email,
         subject: `✅ Potvrda rezervacije — ${event.naziv}`,
@@ -82,7 +100,13 @@ export async function POST(request: NextRequest) {
           slug: event.slug,
           cancelToken: payment.cancel_token,
         }),
-      }).catch(e => console.error('[mark-paid] Email failed:', e))
+      })
+
+      if (result.error) {
+        console.error('[mark-paid] Email send error:', JSON.stringify(result.error))
+      } else {
+        console.log(`[mark-paid] Confirmation email sent: id=${result.data?.id} to=${payment.email}`)
+      }
     }
 
     return NextResponse.json({ success: true })

@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import Link from 'next/link'
 import CheckoutForm from './CheckoutForm'
 import WaitingListForm from './WaitingListForm'
+import { ShieldCheck, CheckCircle2, AlertCircle, Calendar, Clock, Users } from 'lucide-react'
 
 interface Participant {
   id: string
@@ -119,89 +121,102 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#f9fafb' }}>
+    <div style={{ backgroundColor: '#0D0F1A' }} className="min-h-screen">
       {/* Header */}
-      <header style={{ background: '#1a2b4a' }} className="px-6 py-4">
-        <span className="text-white text-xl font-black">skupi<span className="text-blue-400">.</span></span>
+      <header style={{ backgroundColor: 'rgba(13,15,26,0.95)', backdropFilter: 'blur(12px)', borderBottomColor: '#1C2040' }} className="h-14 border-b flex items-center px-6">
+        <span className="text-white text-xl font-black">skupi<span className="text-[#6C47FF]">.</span></span>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 grid gap-6 md:grid-cols-[1fr_380px] items-start">
+      <div className="max-w-4xl mx-auto px-4 py-8 grid gap-5 md:grid-cols-[1fr_360px] items-start">
 
         {/* Left: Event info */}
-        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden">
           {/* Event header */}
-          <div style={{ background: '#1a2b4a' }} className="p-7">
-            <p className="text-xs text-white/50 uppercase tracking-widest mb-2 font-medium">
+          <div style={{ backgroundColor: '#13162A' }} className="p-6 border-b border-[#1C2040]">
+            <p className="text-[11px] uppercase tracking-widest text-[#6B7299] mb-2 font-medium">
               {datumDate.toLocaleDateString('hr-HR', { weekday: 'long' })},{' '}
               {datumDate.toLocaleDateString('hr-HR', { day: 'numeric', month: 'long', year: 'numeric' })}
               {' · '}
               {datumDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </p>
-            <h1 className="text-2xl font-black text-white leading-tight">{event.naziv}</h1>
-            {ownerName && <p className="text-white/50 text-sm mt-1">{ownerName}</p>}
-            {event.opis && <p className="text-white/60 text-sm mt-3 leading-relaxed">{event.opis}</p>}
+            <h1 className="text-2xl font-black text-white leading-tight tracking-tight">{event.naziv}</h1>
+            {ownerName && <p className="text-[#6B7299] text-sm mt-1">{ownerName}</p>}
+            {event.opis && <p className="text-[#A0A8C8] text-sm mt-2 leading-relaxed">{event.opis}</p>}
           </div>
 
           {/* Info grid */}
-          <div className="p-5 grid grid-cols-2 gap-4 border-b border-gray-100">
-            <div>
-              <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Rok uplate</p>
-              <p className="font-semibold text-gray-800 text-sm">
-                {rokDate.toLocaleDateString('hr-HR')} · {rokDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
-              </p>
+          <div className="p-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#A0A8C8] border-b border-[#1C2040]">
+            <div className="inline-flex items-center gap-1.5">
+              <Calendar size={14} className="text-[#6B7299]" />
+              {datumDate.toLocaleDateString('hr-HR')}
             </div>
-            <div>
-              <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Potvrda rezervacije</p>
-              <p className="font-semibold text-gray-800 text-sm">min. {event.min_sudionika} · max. {event.max_sudionika}</p>
+            <div className="inline-flex items-center gap-1.5">
+              <Clock size={14} className="text-[#6B7299]" />
+              {datumDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
+            </div>
+            <div className="inline-flex items-center gap-1.5">
+              <Users size={14} className="text-[#6B7299]" />
+              {event.min_sudionika} · {event.max_sudionika}
+            </div>
+            <div className="inline-flex items-center gap-1.5">
+              <AlertCircle size={14} className="text-[#6B7299]" />
+              {rokDate.toLocaleDateString('hr-HR')} · {rokDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
 
-          {/* Live counter */}
-          <div className="p-5">
+          {/* Progress section */}
+          <div className="p-5 border-b border-[#1C2040]">
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                <span className="text-sm font-semibold text-gray-700">Live status</span>
-              </div>
-              <span className="text-2xl font-black text-blue-600">{paidCount} / {event.max_sudionika}</span>
+              <label className="text-xs uppercase tracking-widest text-[#6B7299] font-semibold">Mjesta</label>
+              <p className="text-sm font-semibold text-white">{paidCount} / {event.max_sudionika} popunjeno</p>
             </div>
-            <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-2">
+            <div style={{ backgroundColor: '#1C2040' }} className="h-2.5 rounded-full overflow-hidden mb-3">
               <div
                 className="h-full rounded-full transition-all duration-700"
                 style={{
                   width: `${pct}%`,
-                  background: paidCount >= event.min_sudionika ? '#10b981' : '#3b82f6',
+                  background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF 0%, #22C55E 100%)' : '#6C47FF',
                 }}
               />
+              <div className="absolute relative w-full">
+                <div
+                  className="absolute h-2.5 w-1 bg-[#F59E0B] rounded-full -top-2.5"
+                  style={{
+                    left: `calc(${(event.min_sudionika / event.max_sudionika) * 100}% - 2px)`,
+                  }}
+                />
+              </div>
             </div>
-            <div className="flex justify-between mt-1.5 text-xs text-gray-400">
-              <span>0 mjesta</span>
-              <span className="text-orange-500 font-semibold">min: {event.min_sudionika}</span>
+            <div className="flex justify-between text-[11px] text-[#6B7299] mt-1.5">
+              <span>0</span>
+              <span className="font-semibold text-[#F59E0B]">min: {event.min_sudionika}</span>
               <span>max: {event.max_sudionika}</span>
             </div>
 
             {paidCount >= event.min_sudionika && (
-              <div className="mt-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-emerald-700 font-medium">
-                ✅ Minimum dostignut — rezervacija će biti potvrđena!
+              <div style={{ backgroundColor: 'rgba(34,197,94,0.08)', borderColor: 'rgba(34,197,94,0.2)' }} className="mt-3 border rounded-md px-3 py-2.5 flex items-center gap-2 text-sm font-medium text-[#22C55E]">
+                <CheckCircle2 size={16} />
+                Minimum dostignut — rezervacija će biti potvrđena!
               </div>
             )}
           </div>
 
           {/* Participants */}
           {participants.length > 0 && (
-            <div className="px-5 pb-5">
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-3">Već platili</p>
-              <div className="space-y-2">
+            <div style={{ backgroundColor: '#13162A' }} className="px-5 py-5">
+              <p className="text-[11px] uppercase tracking-widest text-[#6B7299] font-semibold mb-3">Već platili</p>
+              <div className="flex flex-wrap gap-2.5">
                 {participants.map((p, i) => (
-                  <div key={p.id} className="flex items-center gap-3">
+                  <div key={p.id} className="flex items-center gap-2">
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
                       style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
                     >
                       {p.ime.charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-sm font-medium text-gray-700">{p.ime.split(' ')[0]}</span>
-                    <span className="text-xs text-emerald-500 font-medium ml-auto">✓ plaćeno</span>
+                    <span className="text-sm font-medium text-white">{p.ime.split(' ')[0]}</span>
+                    <CheckCircle2 size={13} className="text-[#22C55E] ml-1" />
+                    <span className="text-xs text-[#6B7299]">plaćeno</span>
                   </div>
                 ))}
               </div>
@@ -210,29 +225,29 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
         </div>
 
         {/* Right: Checkout card */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 sticky top-6">
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-6 sticky top-20">
           {justPaid ? (
             /* ── Success state ───────────────────────────────── */
             <div className="text-center py-4">
               <div
                 className="w-14 h-14 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"
-                style={{ background: '#d1fae5' }}
+                style={{ backgroundColor: 'rgba(34,197,94,0.12)', borderColor: 'rgba(34,197,94,0.2)', border: '1px solid' }}
               >
                 ✅
               </div>
-              <h2 className="text-lg font-bold text-gray-900 mb-1">Uplata primljena!</h2>
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <h2 className="text-lg font-bold text-white mb-1">Uplata primljena!</h2>
+              <p className="text-[#A0A8C8] text-sm leading-relaxed">
                 Novac je zamrznut na kartici. Dobiti ćeš email potvrdu čim se skupi minimalni broj sudionika.
               </p>
-              <div className="mt-4 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
-                <div className="flex items-center gap-2 text-blue-600 text-sm">
-                  <span className="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <div style={{ backgroundColor: 'rgba(108,71,255,0.1)', borderColor: 'rgba(108,71,255,0.2)' }} className="mt-4 border rounded-md px-3 py-2.5">
+                <div className="flex items-center gap-2 text-[#8B6FFF] text-sm">
+                  <span className="inline-block w-2 h-2 rounded-full bg-[#8B6FFF] animate-pulse" />
                   <span className="font-medium">{paidCount} / {event.max_sudionika} platilo</span>
                 </div>
               </div>
-              <p className="mt-4 text-xs text-gray-400">
+              <p className="mt-4 text-xs text-[#6B7299]">
                 Planovi su se promijenili?{' '}
-                <span className="text-gray-400">
+                <span className="text-[#6B7299]">
                   Link za odjavu je poslan na tvoj email.
                 </span>
               </p>
@@ -243,12 +258,12 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
             <div className="text-center py-4">
               <div
                 className="w-14 h-14 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"
-                style={{ background: '#ede9fe' }}
+                style={{ backgroundColor: 'rgba(108,71,255,0.12)', borderColor: 'rgba(108,71,255,0.2)', border: '1px solid' }}
               >
                 🔔
               </div>
-              <h2 className="text-lg font-bold text-gray-900 mb-1">Na listi čekanja!</h2>
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <h2 className="text-lg font-bold text-white mb-1">Na listi čekanja!</h2>
+              <p className="text-[#A0A8C8] text-sm leading-relaxed">
                 Obavijestit ćemo te emailom (i po mogućnosti WhatsApp/Viber) čim se oslobodi mjesto.
               </p>
             </div>
@@ -261,12 +276,12 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                 <>
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-base"
-                         style={{ background: '#fef3c7' }}>
+                         style={{ backgroundColor: 'rgba(245,158,11,0.1)' }}>
                       🔒
                     </div>
                     <div>
-                      <h2 className="text-base font-bold text-gray-900">Termin je popunjen</h2>
-                      <p className="text-xs text-gray-400">Stavi se na listu čekanja</p>
+                      <h2 className="text-base font-bold text-white">Termin je popunjen</h2>
+                      <p className="text-xs text-[#6B7299]">Stavi se na listu čekanja</p>
                     </div>
                   </div>
                   <WaitingListForm
@@ -276,8 +291,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                 </>
               ) : (
                 <>
-                  <h2 className="text-lg font-bold text-gray-900 mb-1">Rezerviraj mjesto</h2>
-                  <p className="text-xs text-gray-400 mb-5">
+                  <h2 className="text-lg font-bold text-white mb-0.5">Rezerviraj mjesto</h2>
+                  <p className="text-xs text-[#6B7299] mb-4">
                     {isActive
                       ? 'Uplata se zamrzava dok se ne skupi minimum.'
                       : isExpired
@@ -286,18 +301,18 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                   </p>
 
                   {/* Price breakdown */}
-                  <div className="bg-gray-50 rounded-xl p-3.5 mb-5 space-y-1.5">
-                    <div className="flex justify-between text-sm text-gray-500">
+                  <div style={{ backgroundColor: '#0D0F1A', borderColor: '#1C2040' }} className="border rounded-md px-4 py-3.5 mb-5 space-y-2">
+                    <div className="flex justify-between text-sm text-[#A0A8C8]">
                       <span>{event.naziv}</span>
                       <span>{cijenaVlasnika.toFixed(2)} €</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-500">
-                      <span>Service fee</span>
+                    <div className="flex justify-between text-sm text-[#6B7299]">
+                      <span>Naknada za uslugu</span>
                       <span>{serviceFee.toFixed(2)} €</span>
                     </div>
-                    <div className="flex justify-between font-bold text-gray-900 border-t border-gray-200 pt-2 mt-1">
+                    <div style={{ borderTopColor: '#1C2040' }} className="flex justify-between font-bold text-white border-t pt-2.5 mt-1">
                       <span>Ukupno</span>
-                      <span>{cijenaTotal.toFixed(2)} €</span>
+                      <span className="text-lg text-[#6C47FF]">{cijenaTotal.toFixed(2)} €</span>
                     </div>
                   </div>
 
@@ -310,17 +325,20 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                       onFull={() => setPaidCount(event.max_sudionika)}
                     />
                   ) : (
-                    <div className="w-full py-3 rounded-xl text-center text-sm font-semibold bg-gray-100 text-gray-400">
+                    <div style={{ backgroundColor: '#1C2040', color: '#6B7299' }} className="w-full py-3 rounded-md text-center text-sm font-medium">
                       {isExpired ? '⏰ Rok uplate je prošao' : 'Nije dostupno'}
                     </div>
                   )}
 
-                  <p className="text-center text-xs text-gray-400 mt-3">🛡️ Stripe sigurno plaćanje</p>
+                  <div className="flex items-center justify-center gap-2 text-xs text-[#6B7299] mt-3">
+                    <ShieldCheck size={13} />
+                    Stripe sigurno plaćanje
+                  </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-xs text-gray-400 leading-relaxed">
-                      💡 Ako se do roka ne skupi <strong>{event.min_sudionika}</strong> sudionika,
-                      automatski se vraća sav novac. Bez naknada.
+                  <div style={{ borderTopColor: '#1C2040' }} className="mt-4 pt-5 border-t">
+                    <p className="text-xs text-[#F59E0B] leading-relaxed flex items-start gap-2.5">
+                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <span>Ako se do roka ne skupi <strong>{event.min_sudionika}</strong> sudionika, automatski se vraća sav novac. Bez naknada.</span>
                     </p>
                   </div>
                 </>
@@ -329,6 +347,18 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer style={{ borderTopColor: '#1C2040' }} className="border-t mt-10 py-5">
+        <div className="max-w-4xl mx-auto px-4 flex justify-between items-center">
+          <p className="text-[#6B7299] text-xs">
+            Powered by <span className="font-bold text-white">skupi</span>.
+          </p>
+          <Link href="/" className="text-xs font-semibold text-[#6C47FF] hover:underline">
+            Kreiraj vlastiti link besplatno →
+          </Link>
+        </div>
+      </footer>
     </div>
   )
 }

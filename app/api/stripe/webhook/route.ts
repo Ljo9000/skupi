@@ -142,6 +142,9 @@ export async function POST(request: NextRequest) {
               slug: ev.slug,
               cancelToken: existingPayment.cancel_token,
             }),
+          }).then(result => {
+            if (result.error) console.error('[webhook] Confirmation email error:', JSON.stringify(result.error))
+            else console.log(`[webhook] Confirmation email sent: id=${result.data?.id}`)
           }).catch(e => console.error('[webhook] Confirmation email failed:', e))
         }
 
@@ -243,6 +246,9 @@ export async function POST(request: NextRequest) {
               eventDate,
               amount,
             }),
+          }).then(result => {
+            if (result.error) console.error('[webhook] Cancel email error:', JSON.stringify(result.error))
+            else console.log(`[webhook] Cancel email sent: id=${result.data?.id}`)
           }).catch(e => console.error('[webhook] Cancel email failed:', e))
         }
 

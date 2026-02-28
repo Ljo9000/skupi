@@ -2,11 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 :root {
-  --navy: #1a2b4a;
-  --blue: #2563eb;
+  /* Brand */
+  --color-brand-purple: #6C47FF;
+  --color-brand-purple-light: #8B6FFF;
+  --color-brand-purple-dim: rgba(108, 71, 255, 0.13);
+
+  /* Dark palette */
+  --color-dark-900: #0D0F1A;
+  --color-dark-800: #13162A;
+  --color-dark-700: #1C2040;
+  --color-dark-600: #2A2F55;
+  --color-dark-500: #363B6B;
+
+  /* Text on dark */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A0A8C8;
+  --color-text-muted: #6B7299;
+
+  /* Semantic */
+  --color-success: #22C55E;
+  --color-success-bg: rgba(34, 197, 94, 0.12);
+  --color-success-border: rgba(34, 197, 94, 0.25);
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  --color-warning-border: rgba(245, 158, 11, 0.2);
+  --color-error: #EF4444;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-border: rgba(239, 68, 68, 0.2);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--color-dark-900);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR (dark theme)
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-dark-900); }
+::-webkit-scrollbar-thumb { background: var(--color-dark-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-dark-500); }
+
+/* ============================================================
+   FORM ELEMENT OVERRIDES — dark native date/time inputs
+   ============================================================ */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  color-scheme: dark;
+}
+
+/* ============================================================
+   ANIMATION HELPERS
+   ============================================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.8); }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease forwards;
+}
+
+/* ============================================================
+   PROGRESS BAR COMPONENT
+   ============================================================ */
+.progress-track {
+  height: 8px;
+  background: var(--color-dark-700);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-brand-purple), var(--color-success));
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+/* ============================================================
+   FOCUS RING — purple, consistent across all interactive elements
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-brand-purple);
+  outline-offset: 2px;
 }

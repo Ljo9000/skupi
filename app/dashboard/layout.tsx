@@ -16,13 +16,16 @@ export default async function DashboardLayout({
 
   const { data: owner } = await supabase
     .from('owners')
-    .select('ime')
+    .select('ime, stripe_onboarding_complete')
     .eq('user_id', authedUser.id)
     .single()
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DashboardNav ownerName={owner?.ime ?? authedUser.email ?? 'Vlasnik'} />
+    <div className="min-h-screen" style={{ background: '#0D0F1A' }}>
+      <DashboardNav
+        ownerName={owner?.ime ?? authedUser.email ?? 'Vlasnik'}
+        stripeActive={owner?.stripe_onboarding_complete ?? false}
+      />
       <main>{children}</main>
     </div>
   )
