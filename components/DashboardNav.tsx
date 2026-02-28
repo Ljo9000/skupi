@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { LayoutDashboard, Calendar, Plus, ChevronDown } from 'lucide-react'
+import { LayoutDashboard, Calendar, ChevronDown } from 'lucide-react'
 
 interface DashboardNavProps {
   ownerName: string
@@ -54,17 +54,6 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
             })}
           </div>
         </div>
-
-        {/* Center: new termin */}
-        <Link
-          href="/dashboard/novi"
-          className="flex items-center gap-1.5 text-white text-xs font-semibold px-3 py-1.5 rounded-md transition"
-          style={{ background: '#6C47FF' }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#8B6FFF' }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#6C47FF' }}
-        >
-          <Plus size={13} /><span className="hidden sm:inline">Novi termin</span>
-        </Link>
 
         {/* Right: status + user + logout */}
         <div className="flex items-center gap-2.5 shrink-0">
