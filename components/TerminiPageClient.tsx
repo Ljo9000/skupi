@@ -16,6 +16,7 @@ export interface TerminiEvent {
   cijena_vlasnika: number
   status: EventStatus
   rok_uplate: string
+  confirmedCount?: number
 }
 
 export default function TerminiPageClient({ events }: { events: TerminiEvent[] }) {

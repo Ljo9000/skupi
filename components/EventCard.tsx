@@ -23,13 +23,23 @@ const STATUS_CONFIG: Record<EventStatus, { label: string; color: string; bg: str
   cancelled: { label: 'Otkazan',    color: '#EF4444', bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.2)'   },
 }
 
-export default function EventCard({ event, isPast = false }: { event: Event; isPast?: boolean }) {
+interface EventCardProps {
+  event: Event
+  isPast?: boolean
+  /** Actual number of confirmed/paid participants fetched from payments table */
+  confirmedCount?: number
+}
+
+export default function EventCard({ event, isPast = false, confirmedCount }: EventCardProps) {
   const cfg = STATUS_CONFIG[event.status] ?? STATUS_CONFIG.cancelled
   const date = new Date(event.datum)
   const daysLeft = Math.ceil((date.getTime() - Date.now()) / 86400000)
   const rok = new Date(event.rok_uplate)
   const rokPassed = rok < new Date()
-  const progressPercent = Math.min((event.min_sudionika / event.max_sudionika) * 100, 100)
+
+  // Use real confirmed count when available, otherwise fall back to min threshold
+  const filled = confirmedCount ?? event.min_sudionika
+  const progressPercent = Math.min((filled / event.max_sudionika) * 100, 100)
 
   return (
     <Link
@@ -82,7 +92,7 @@ export default function EventCard({ event, isPast = false }: { event: Event; isP
             />
           </div>
           <div className="text-xs text-[#A0A8C8]">
-            {event.min_sudionika}/{event.max_sudionika}
+            {filled}/{event.max_sudionika}
           </div>
           <span
             className="text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"

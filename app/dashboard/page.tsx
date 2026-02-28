@@ -45,13 +45,19 @@ export default async function DashboardPage() {
   const { data: allPayments } = eventIds.length > 0
     ? await supabase
         .from('payments')
-        .select('iznos_vlasnika, status')
+        .select('event_id, iznos_vlasnika, status')
         .in('event_id', eventIds)
         .in('status', ['confirmed', 'paid'])
     : { data: [] }
 
   const totalCollectedCents = (allPayments ?? []).reduce((s: number, p: { iznos_vlasnika: number }) => s + (p.iznos_vlasnika ?? 0), 0)
   const totalCollectedEur = (totalCollectedCents / 100).toFixed(2)
+
+  // Build confirmed-participant count per event
+  const confirmedCountMap: Record<string, number> = {}
+  for (const p of (allPayments ?? []) as { event_id: string }[]) {
+    confirmedCountMap[p.event_id] = (confirmedCountMap[p.event_id] ?? 0) + 1
+  }
 
   // Active: nearest date first (ascending — already from query)
   const activeEvents = (events ?? []).filter((e: Event) => e.status === 'active')
@@ -157,7 +163,7 @@ export default async function DashboardPage() {
         ) : (
           <div className="space-y-3">
             {activeEvents.map((event: Event) => (
-              <EventCard key={event.id} event={event} />
+              <EventCard key={event.id} event={event} confirmedCount={confirmedCountMap[event.id] ?? 0} />
             ))}
           </div>
         )}
@@ -180,7 +186,7 @@ export default async function DashboardPage() {
           </div>
           <div className="space-y-3">
             {pastEvents.map((event: Event) => (
-              <EventCard key={event.id} event={event} isPast={true} />
+              <EventCard key={event.id} event={event} isPast={true} confirmedCount={confirmedCountMap[event.id] ?? 0} />
             ))}
           </div>
         </section>

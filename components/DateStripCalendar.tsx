@@ -16,6 +16,7 @@ interface Event {
   cijena_vlasnika: number
   status: EventStatus
   rok_uplate: string
+  confirmedCount?: number
 }
 
 const HR_MONTHS = [
@@ -284,11 +285,9 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
                       <div
                         key={event.id}
                         className="rounded-2xl overflow-hidden"
-                        style={{
-                          borderLeft: `3px solid ${borderColor}`,
-                        }}
+                        style={{ borderLeft: `3px solid ${borderColor}` }}
                       >
-                        <EventCard event={event} />
+                        <EventCard event={event} confirmedCount={event.confirmedCount} />
                       </div>
                     ))}
                   </div>
