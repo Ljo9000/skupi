@@ -59,11 +59,15 @@ export default async function DashboardPage() {
     confirmedCountMap[p.event_id] = (confirmedCountMap[p.event_id] ?? 0) + 1
   }
 
-  // Active: nearest date first (ascending — already from query)
-  const activeEvents = (events ?? []).filter((e: Event) => e.status === 'active')
-  // Past: most recently ended first (descending)
+  const now = new Date()
+
+  // Truly active: status=active AND deadline not yet passed
+  const activeEvents = (events ?? []).filter(
+    (e: Event) => e.status === 'active' && new Date(e.rok_uplate) >= now
+  )
+  // Bottom section: confirmed/cancelled + active-but-expired — most recent first
   const pastEvents = (events ?? [])
-    .filter((e: Event) => e.status !== 'active')
+    .filter((e: Event) => e.status !== 'active' || new Date(e.rok_uplate) < now)
     .sort((a: Event, b: Event) => new Date(b.datum).getTime() - new Date(a.datum).getTime())
 
   return (
@@ -112,6 +116,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {[
           { label: 'Aktivni termini', value: activeEvents.length.toString(), color: '#6C47FF' },
+          // ^ counts only truly-active (deadline not passed)
           { label: 'Ukupno termina', value: (events?.length ?? 0).toString(), color: '#22C55E' },
           { label: 'Potvrđeni', value: ((events ?? []).filter((e: Event) => e.status === 'confirmed').length).toString(), color: '#8B6FFF' },
           { label: 'Prikupljeno', value: `${totalCollectedEur} €`, color: '#22C55E' },

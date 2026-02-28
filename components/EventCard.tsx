@@ -23,6 +23,13 @@ const STATUS_CONFIG: Record<EventStatus, { label: string; color: string; bg: str
   cancelled: { label: 'Otkazan',    color: '#EF4444', bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.2)'   },
 }
 
+const EXPIRED_CONFIG = {
+  label: 'Rok istekao',
+  color: '#F59E0B',
+  bg:    'rgba(245,158,11,0.1)',
+  border:'rgba(245,158,11,0.2)',
+}
+
 interface EventCardProps {
   event: Event
   isPast?: boolean
@@ -31,11 +38,13 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, isPast = false, confirmedCount }: EventCardProps) {
-  const cfg = STATUS_CONFIG[event.status] ?? STATUS_CONFIG.cancelled
   const date = new Date(event.datum)
   const daysLeft = Math.ceil((date.getTime() - Date.now()) / 86400000)
-  const rok = new Date(event.rok_uplate)
-  const rokPassed = rok < new Date()
+  const rokPassed = new Date(event.rok_uplate) < new Date()
+
+  // Events that are still status='active' but deadline passed get amber badge
+  const isExpired = event.status === 'active' && rokPassed
+  const cfg = isExpired ? EXPIRED_CONFIG : (STATUS_CONFIG[event.status] ?? STATUS_CONFIG.cancelled)
 
   // Use real confirmed count when available, otherwise fall back to min threshold
   const filled = confirmedCount ?? event.min_sudionika
@@ -65,8 +74,9 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
             <div className="font-semibold text-white text-sm truncate">{event.naziv}</div>
             <div className="text-xs text-[#6B7299] mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
               <span>{date.toLocaleDateString('hr-HR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
-              {daysLeft > 0 && <span style={{ color: daysLeft <= 3 ? '#EF4444' : 'inherit' }}>za {daysLeft}d</span>}
-              {rokPassed && event.status === 'active' && <span style={{ color: '#EF4444', fontWeight: '500' }}>rok istekao</span>}
+              {daysLeft > 0 && (
+                <span style={{ color: daysLeft <= 3 ? '#EF4444' : 'inherit' }}>za {daysLeft}d</span>
+              )}
               <span style={{ color: '#3C4154' }}>·</span>
               <span className="font-mono" style={{ color: '#3C4154' }}>skupi.app/t/{event.slug}</span>
             </div>
