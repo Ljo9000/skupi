@@ -38,7 +38,7 @@ export default async function DashboardPage() {
     .from('events')
     .select('*')
     .eq('owner_id', owner?.id)
-    .order('datum', { ascending: false })
+    .order('datum', { ascending: true })
 
   // Get total collected across all events (confirmed/paid payments only)
   const eventIds = (events ?? []).map((e: Event) => e.id)
@@ -53,8 +53,12 @@ export default async function DashboardPage() {
   const totalCollectedCents = (allPayments ?? []).reduce((s: number, p: { iznos_vlasnika: number }) => s + (p.iznos_vlasnika ?? 0), 0)
   const totalCollectedEur = (totalCollectedCents / 100).toFixed(2)
 
+  // Active: nearest date first (ascending — already from query)
   const activeEvents = (events ?? []).filter((e: Event) => e.status === 'active')
-  const pastEvents = (events ?? []).filter((e: Event) => e.status !== 'active')
+  // Past: most recently ended first (descending)
+  const pastEvents = (events ?? [])
+    .filter((e: Event) => e.status !== 'active')
+    .sort((a: Event, b: Event) => new Date(b.datum).getTime() - new Date(a.datum).getTime())
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
