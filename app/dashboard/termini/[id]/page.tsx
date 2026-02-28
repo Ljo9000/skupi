@@ -1,17 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import { redirect, notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Bell, XCircle } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import QRCodeCard from '@/components/QRCodeCard'
 import CopyButton from '@/components/CopyButton'
-
-async function closeEventAction(formData: FormData) {
-  'use server'
-  const eventId = formData.get('event_id') as string
-  const supabase = await createClient()
-  await supabase.from('events').update({ status: 'cancelled' }).eq('id', eventId)
-  redirect(`/dashboard/termini/${eventId}`)
-}
+import EventActionButtons from '@/components/EventActionButtons'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
@@ -230,45 +223,11 @@ export default async function TerminDetaljPage({
             </div>
 
             {/* Action buttons */}
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              {/* Pošalji podsjetnik — disabled if no pending payments */}
-              <button
-                disabled={pendingCount === 0}
-                title={pendingCount === 0 ? 'Svi sudionici su platili' : `Pošalji podsjetnik ${pendingCount} neplaćenim sudionicima`}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-[10px] text-sm font-semibold border transition disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{
-                  color: pendingCount > 0 ? '#A0A8C8' : '#6B7299',
-                  borderColor: '#2A2F55',
-                  backgroundColor: 'transparent',
-                }}
-              >
-                <Bell size={15} />
-                Pošalji podsjetnik
-                {pendingCount > 0 && (
-                  <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(245,158,11,0.15)', color: '#F59E0B' }}>
-                    {pendingCount}
-                  </span>
-                )}
-              </button>
-
-              {/* Zatvori termin — only show if event is still active */}
-              {event.status === 'active' && (
-                <form action={closeEventAction}>
-                  <input type="hidden" name="event_id" value={event.id} />
-                  <button
-                    type="submit"
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-[10px] text-sm font-semibold border transition"
-                    style={{ color: '#EF4444', borderColor: 'rgba(239,68,68,0.3)', backgroundColor: 'transparent' }}
-                    onClick={(e) => {
-                      if (!confirm('Zatvori termin? Sve neuplaćene rezervacije bit će otkazane.')) e.preventDefault()
-                    }}
-                  >
-                    <XCircle size={15} />
-                    Zatvori termin
-                  </button>
-                </form>
-              )}
-            </div>
+            <EventActionButtons
+              eventId={event.id}
+              eventStatus={event.status}
+              pendingCount={pendingCount}
+            />
           </div>
 
           {/* Right column - QR Card */}
