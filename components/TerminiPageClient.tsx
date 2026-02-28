@@ -27,7 +27,7 @@ export default function TerminiPageClient({ events }: { events: TerminiEvent[] }
       <div className="mb-8">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1 text-sm text-[#6B7299] hover:text-white transition mb-3"
+          className="inline-flex items-center gap-1 text-sm text-[#8A93BC] hover:text-white transition mb-3"
         >
           <ArrowLeft className="w-4 h-4" />
           Dashboard
@@ -42,7 +42,7 @@ export default function TerminiPageClient({ events }: { events: TerminiEvent[] }
           className="rounded-2xl p-12 text-center"
           style={{ backgroundColor: '#13162A', border: '1px dashed #1C2040' }}
         >
-          <p className="text-[#6B7299] text-sm mb-4">📅 Nemaš još termina</p>
+          <p className="text-[#8A93BC] text-sm mb-4">📅 Nemaš još termina</p>
           <Link
             href="/dashboard/novi"
             className="inline-block text-white text-sm font-semibold px-4 py-2.5 rounded-md transition bg-brand-purple hover:bg-brand-purple-light"

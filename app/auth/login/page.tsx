@@ -51,14 +51,13 @@ export default function LoginPage() {
       {/* Main */}
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-[400px]">
-          <div className="rounded-2xl border border-dark-700 p-8 shadow-dark-lg"
-               style={{ background: '#13162A' }}>
+          <div className="rounded-2xl border border-dark-700 p-8 shadow-dark-lg bg-dark-800">
 
             <h1 className="text-2xl font-black text-white mb-1">Dobro došao nazad</h1>
             <p className="text-sm text-text-muted mb-7">Upiši podatke za prijavu.</p>
 
             {error && (
-              <div className="flex items-start gap-2.5 rounded-lg px-3.5 py-3 mb-5 text-sm border"
+              <div role="alert" className="flex items-start gap-2.5 rounded-lg px-3.5 py-3 mb-5 text-sm border"
                    style={{ background: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.2)', color: '#FCA5A5' }}>
                 {error}
               </div>
@@ -67,10 +66,11 @@ export default function LoginPage() {
             <form onSubmit={handleLogin} className="space-y-4">
               {/* Email */}
               <div>
-                <label className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">
+                <label htmlFor="email" className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">
                   Email adresa
                 </label>
                 <input
+                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -90,7 +90,7 @@ export default function LoginPage() {
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+                  <label htmlFor="password" className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
                     Lozinka
                   </label>
                   <a href="#" className="text-xs text-brand-purple hover:underline">
@@ -99,6 +99,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative">
                   <input
+                    id="password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

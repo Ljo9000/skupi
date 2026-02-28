@@ -22,8 +22,8 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
   }
 
   const navLinks = [
-    { href: '/dashboard',         label: 'Pregled',  icon: <LayoutDashboard size={15} /> },
-    { href: '/dashboard/termini', label: 'Kalendar', icon: <Calendar size={15} /> },
+    { href: '/dashboard',         label: 'Pregled',  icon: <LayoutDashboard size={15} aria-hidden="true" /> },
+    { href: '/dashboard/termini', label: 'Kalendar', icon: <Calendar size={15} aria-hidden="true" /> },
   ]
 
   return (
@@ -59,15 +59,16 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
         <div className="flex items-center gap-2.5 shrink-0">
           <span
             className="w-2 h-2 rounded-full animate-pulse shrink-0"
-            title={stripeActive ? 'Stripe aktivan' : 'Stripe neaktivan'}
+            aria-label={stripeActive ? 'Stripe aktivan' : 'Stripe neaktivan'}
             style={{ background: stripeActive ? '#22C55E' : '#F59E0B', boxShadow: stripeActive ? '0 0 6px rgba(34,197,94,0.5)' : '0 0 6px rgba(245,158,11,0.5)' }}
           />
           <span className="text-sm text-white font-medium hidden sm:inline">{ownerName}</span>
-          <ChevronDown size={12} className="text-[#6B7299] hidden sm:block" />
+          <ChevronDown size={12} aria-hidden="true" className="text-[#8A93BC] hidden sm:block" />
           <div className="w-px h-4 bg-[#1C2040] hidden sm:block" />
           <button
+            type="button"
             onClick={handleSignOut}
-            className="text-xs text-[#6B7299] hover:text-[#EF4444] transition"
+            className="text-xs text-[#8A93BC] hover:text-[#EF4444] transition"
           >
             Odjava
           </button>

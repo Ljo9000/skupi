@@ -33,37 +33,37 @@ const faqs = [
 // ── Feature grid data ─────────────────────────────────────────
 const features = [
   {
-    icon: <ShieldCheck size={20} />,
+    icon: <ShieldCheck size={20} aria-hidden="true" />,
     title: 'Stripe sigurnost',
     desc: 'Plaćanja su zaštićena Stripe infrastrukturom. Isti standard koji koriste globalne fintech kompanije.',
     color: 'text-brand-purple bg-brand-purple/10',
   },
   {
-    icon: <Zap size={20} />,
+    icon: <Zap size={20} aria-hidden="true" />,
     title: 'Radi u sekundi',
     desc: 'Bez registracije za sudionike — samo link. Otvore, unesu ime, plate karticom. Gotovo.',
     color: 'text-success bg-success/10',
   },
   {
-    icon: <Undo2 size={20} />,
+    icon: <Undo2 size={20} aria-hidden="true" />,
     title: 'Automatski refund',
     desc: 'Ako minimum nije skupljen do roka, sav novac se automatski vraća. Bez naknade.',
     color: 'text-warning bg-warning/10',
   },
   {
-    icon: <Users size={20} />,
+    icon: <Users size={20} aria-hidden="true" />,
     title: 'Grupe do 50 osoba',
     desc: 'Radi za sportske grupe, izlete, djevojačke večeri, zajednička putovanja i večere.',
     color: 'text-blue-400 bg-blue-400/10',
   },
   {
-    icon: <LinkIcon size={20} />,
+    icon: <LinkIcon size={20} aria-hidden="true" />,
     title: 'Dijeli gdje hoćeš',
     desc: 'WhatsApp, Viber, email, SMS — jedan link radi svugdje. QR kod za ispis na ulazu.',
     color: 'text-pink-400 bg-pink-400/10',
   },
   {
-    icon: <CreditCard size={20} />,
+    icon: <CreditCard size={20} aria-hidden="true" />,
     title: 'Plaćanje karticom',
     desc: 'Visa, Mastercard, Apple Pay i Google Pay. Sudionici plaćaju metodom koja im odgovara.',
     color: 'text-teal-400 bg-teal-400/10',
@@ -86,7 +86,7 @@ export default function LandingPage() {
             </Link>
             <Link href="/auth/register"
                   className="flex items-center gap-1.5 bg-brand-purple hover:bg-brand-purple-light text-white text-sm font-semibold px-4 py-2 rounded-md transition shadow-purple">
-              Počni besplatno <ArrowRight size={14} />
+              Počni besplatno <ArrowRight size={14} aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function LandingPage() {
               <div className="inline-flex items-center gap-2 mb-6 px-3.5 py-1.5 rounded-full text-sm font-medium border"
                    style={{ background: 'rgba(108,71,255,0.12)', borderColor: 'rgba(108,71,255,0.25)', color: '#B8A4FF' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                ✦ Novo &nbsp;·&nbsp; Automatska potvrda rezervacije
+                <span aria-hidden="true">✦</span> Novo &nbsp;·&nbsp; Automatska potvrda rezervacije
               </div>
 
               <h1 className="text-[clamp(2.5rem,5vw,3.75rem)] font-black leading-[1.05] tracking-tight text-white mb-0">
@@ -125,7 +125,7 @@ export default function LandingPage() {
               <div className="flex flex-wrap gap-3">
                 <Link href="/auth/register"
                       className="flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-light text-white font-semibold px-7 py-3.5 rounded-md transition shadow-purple text-base">
-                  Počni besplatno <ArrowRight size={16} />
+                  Počni besplatno <ArrowRight size={16} aria-hidden="true" />
                 </Link>
                 <Link href="/auth/login"
                       className="flex items-center gap-2 border border-dark-700 hover:border-brand-purple text-text-secondary hover:text-white font-medium px-7 py-3.5 rounded-md transition text-base">
@@ -135,7 +135,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right: Phone mockup */}
-            <div className="flex justify-center items-center relative">
+            <div aria-hidden="true" className="flex justify-center items-center relative">
               <div className="absolute inset-0 -inset-10 pointer-events-none rounded-full"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(108,71,255,0.18) 0%, transparent 70%)' }} />
 
@@ -143,7 +143,7 @@ export default function LandingPage() {
               <div className="absolute -top-4 -right-4 z-20 flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border border-dark-700 shadow-dark-md"
                    style={{ background: '#13162A' }}>
                 <div className="w-7 h-7 rounded-md flex items-center justify-center bg-success/10">
-                  <CheckCircle2 size={15} className="text-success" />
+                  <CheckCircle2 size={15} aria-hidden="true" className="text-success" />
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-white leading-none">Rezervacija potvrđena!</div>
@@ -194,7 +194,7 @@ export default function LandingPage() {
                     <span className="text-sm font-medium text-white flex-1">{p.name}</span>
                     {p.paid ? (
                       <span className="flex items-center gap-1 text-xs text-success font-semibold">
-                        <CheckCircle2 size={12} /> 5.58 €
+                        <CheckCircle2 size={12} aria-hidden="true" /> 5.58 €
                       </span>
                     ) : (
                       <span className="text-xs text-text-muted italic">čeka...</span>
@@ -261,9 +261,9 @@ export default function LandingPage() {
 
           <div className="grid sm:grid-cols-3 gap-5">
             {[
-              { num: '01', icon: <Pencil size={20} />, title: 'Kreiraj termin', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
-              { num: '02', icon: <Share2 size={20} />, title: 'Podijeli link',   desc: 'Pošalji Viber ili WhatsApp grupi. Svaki sudionik otvori i plati karticom. Nema registracije.' },
-              { num: '03', icon: <CheckCircle2 size={20} />, title: 'skupi. potvrdi', desc: 'Kad svi plate, automatski naplaćujemo i potvrđujemo. Ako se ne popuni — refundiramo sve.' },
+              { num: '01', icon: <Pencil size={20} aria-hidden="true" />, title: 'Kreiraj termin', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
+              { num: '02', icon: <Share2 size={20} aria-hidden="true" />, title: 'Podijeli link',   desc: 'Pošalji Viber ili WhatsApp grupi. Svaki sudionik otvori i plati karticom. Nema registracije.' },
+              { num: '03', icon: <CheckCircle2 size={20} aria-hidden="true" />, title: 'skupi. potvrdi', desc: 'Kad svi plate, automatski naplaćujemo i potvrđujemo. Ako se ne popuni — refundiramo sve.' },
             ].map((s) => (
               <div key={s.num}
                    className="group rounded-xl border border-dark-700 p-6 transition duration-200 hover:-translate-y-1 hover:border-brand-purple/40"
@@ -322,7 +322,7 @@ export default function LandingPage() {
 
             <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border mb-5"
                  style={{ background: 'rgba(34,197,94,0.12)', borderColor: 'rgba(34,197,94,0.2)', color: '#22C55E' }}>
-              <CheckCircle2 size={11} /> Besplatno za organizatora
+              <CheckCircle2 size={11} aria-hidden="true" /> Besplatno za organizatora
             </div>
 
             <h3 className="text-xl font-bold text-white mb-5">Što gost plaća za termin od 5 €</h3>
@@ -390,7 +390,7 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="relative mt-4 text-xs text-text-muted">
-            ✦ Bez pretplate · Bez naknade za postavljanje · Stripe zaštita
+            <span aria-hidden="true">✦</span> Bez pretplate · Bez naknade za postavljanje · Stripe zaštita
           </p>
         </div>
       </section>
@@ -401,7 +401,7 @@ export default function LandingPage() {
           <div>
             <div className="text-lg font-black text-white">skupi.</div>
             <div className="flex items-center gap-1 text-xs text-text-muted mt-1">
-              <MapPin size={11} /> Zagreb, Hrvatska
+              <MapPin size={11} aria-hidden="true" /> Zagreb, Hrvatska
             </div>
           </div>
           <div className="flex gap-6">

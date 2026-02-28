@@ -114,7 +114,7 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
     if (!strip) return
     const selected = strip.querySelector<HTMLElement>('[data-selected="true"]')
     if (selected) {
-      selected.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+      selected.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
     }
   }, [selectedDate, currentMonth])
 
@@ -139,8 +139,8 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
         <button
           onClick={prevMonth}
           aria-label="Prethodni mjesec"
-          className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors hover:bg-white/5"
-          style={{ color: '#6B7299' }}
+          className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors bg-transparent hover:bg-white/5"
+          style={{ color: '#8A93BC' }}
         >
           <ChevronLeft size={16} />
         </button>
@@ -152,8 +152,8 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
         <button
           onClick={nextMonth}
           aria-label="Sljedeći mjesec"
-          className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors hover:bg-white/5"
-          style={{ color: '#6B7299' }}
+          className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors bg-transparent hover:bg-white/5"
+          style={{ color: '#8A93BC' }}
         >
           <ChevronRight size={16} />
         </button>
@@ -170,6 +170,7 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
           const dayDeadlines = getDeadlinesForDay(day)
           const isToday      = isSameDay(day, today)
           const isSelected   = isSameDay(day, selectedDate)
+          const isPast       = stripTime(day).getTime() < today.getTime()
 
           // Dots: active → green, confirmed → purple, deadline → amber
           const dots: string[] = []
@@ -183,31 +184,37 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
             <button
               key={day.toISOString()}
               data-selected={isSelected}
-              onClick={() => setSelectedDate(day)}
-              className="flex-shrink-0 flex flex-col items-center gap-1 py-2.5 rounded-xl transition-all duration-150"
+              onClick={() => !isPast && setSelectedDate(day)}
+              disabled={isPast}
+              className={`flex-shrink-0 flex flex-col items-center gap-1 py-2.5 rounded-xl transition-all duration-150 ${isPast ? 'cursor-not-allowed' : ''}`}
               style={{
                 minWidth: '52px',
                 paddingLeft: '10px',
                 paddingRight: '10px',
-                backgroundColor: isToday
+                backgroundColor: isPast
+                  ? 'rgba(255,255,255,0.02)'
+                  : isToday
                   ? '#6C47FF'
                   : isSelected
                   ? 'rgba(108,71,255,0.1)'
                   : 'rgba(255,255,255,0.03)',
-                border: isSelected && !isToday
-                  ? '1px solid #6C47FF'
-                  : '1px solid transparent',
+                border: isSelected && !isToday ? '1px solid #6C47FF' : '1px solid transparent',
+                boxShadow: isToday ? '0 0 0 2px rgba(108,71,255,0.4)' : undefined,
+                opacity: isPast ? 0.5 : 1,
               }}
             >
               <span
                 className="text-[10px] font-medium"
-                style={{ color: isToday ? 'rgba(255,255,255,0.75)' : '#6B7299' }}
+                style={{ color: isPast ? '#8A93BC' : isToday ? 'rgba(255,255,255,0.75)' : '#8A93BC' }}
               >
                 {HR_DAYS_SHORT[hrIdx]}
               </span>
               <span
-                className="text-sm font-bold leading-none"
-                style={{ color: isToday ? '#fff' : '#E4E8F7' }}
+                className="text-sm font-bold leading-none tabular-nums inline-flex justify-center items-center"
+                style={{
+                  minWidth: '1.5rem',
+                  color: isPast ? '#8A93BC' : isToday ? '#fff' : '#E4E8F7',
+                }}
               >
                 {day.getDate()}
               </span>
@@ -248,7 +255,7 @@ export default function DateStripCalendar({ events }: { events: Event[] }) {
             className="rounded-2xl p-10 text-center"
             style={{ backgroundColor: '#13162A', border: '1px dashed #1C2040' }}
           >
-            <p className="text-[#6B7299] text-sm">Nema termina za ovaj dan 📭</p>
+            <p className="text-[#8A93BC] text-sm">Nema termina za ovaj dan 📭</p>
           </div>
         ) : (
           <div className="space-y-6">

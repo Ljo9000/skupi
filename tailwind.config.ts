@@ -33,7 +33,8 @@ const config: Config = {
           bg:     'rgba(245,158,11,0.1)',
           border: 'rgba(245,158,11,0.2)',
         },
-        danger: {
+        // 5C: renamed from 'danger' to 'error' to match globals.css CSS variables
+        error: {
           DEFAULT: '#EF4444',
           bg:     'rgba(239,68,68,0.1)',
           border: 'rgba(239,68,68,0.2)',
@@ -41,18 +42,23 @@ const config: Config = {
         // Text aliases for readability
         'text-primary':   '#FFFFFF',
         'text-secondary': '#A0A8C8',
-        'text-muted':     '#6B7299',
+        'text-muted':     '#8A93BC',
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
+      // 5A: Fixed radius scale — xl and 2xl were both 24px (bug)
       borderRadius: {
-        sm:   '6px',
-        md:   '10px',
-        lg:   '16px',
-        xl:   '24px',
-        '2xl': '24px',
-        full: '9999px',
+        sm:    '6px',
+        md:    '10px',
+        lg:    '12px',   // covers rounded-[12px] uses
+        xl:    '16px',   // cards
+        '2xl': '24px',   // large modals / hero elements
+        full:  '9999px',
+      },
+      // 5B: Utility class for the 11px uppercase label pattern (~12 occurrences)
+      fontSize: {
+        'xs-label': ['11px', { lineHeight: '16px', letterSpacing: '0.06em', fontWeight: '600' }],
       },
       boxShadow: {
         'dark-sm': '0 1px 3px rgba(0,0,0,0.4)',

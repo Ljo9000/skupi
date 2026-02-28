@@ -17,8 +17,8 @@ export default function CopyButton({ text }: { text: string }) {
       onClick={handleCopy}
       className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition ${
         copied
-          ? 'bg-emerald-500 text-white'
-          : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-600'
+          ? 'bg-success text-white'
+          : 'bg-dark-600 text-text-secondary border border-dark-500 hover:border-dark-400'
       }`}
     >
       {copied ? (

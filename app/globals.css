@@ -21,7 +21,7 @@
   /* Text on dark */
   --color-text-primary: #FFFFFF;
   --color-text-secondary: #A0A8C8;
-  --color-text-muted: #6B7299;
+  --color-text-muted: #8A93BC;
 
   /* Semantic */
   --color-success: #22C55E;
@@ -63,12 +63,47 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--color-dark-500); }
 
 /* ============================================================
-   FORM ELEMENT OVERRIDES — dark native date/time inputs
+   FORM ELEMENT OVERRIDES — dark native date/time/number inputs
    ============================================================ */
 input[type="date"],
 input[type="time"],
-input[type="datetime-local"] {
+input[type="datetime-local"],
+input[type="number"] {
   color-scheme: dark;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  background: transparent;
+  opacity: 1;
+}
+
+/* ============================================================
+   DATE PICKER DROPDOWN — dark theme overrides for react-day-picker
+   ============================================================ */
+.rdp-root {
+  --rdp-accent-color: #6C47FF;
+  --rdp-accent-background-color: rgba(108, 71, 255, 0.2);
+  --rdp-today-color: #6C47FF;
+}
+.rdp-root .rdp-day_button {
+  color: #E4E8F7;
+}
+.rdp-root .rdp-day_button:hover {
+  background-color: rgba(108, 71, 255, 0.15);
+}
+.rdp-root .rdp-selected .rdp-day_button {
+  background-color: #6C47FF !important;
+  color: white !important;
+}
+.rdp-root .rdp-today:not(.rdp-outside) .rdp-day_button {
+  color: #6C47FF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 0 2px rgba(108, 71, 255, 0.4) !important;
+}
+.rdp-root .rdp-disabled:not(.rdp-selected) .rdp-day_button {
+  color: #8A93BC !important;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ============================================================

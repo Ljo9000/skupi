@@ -129,7 +129,7 @@ export default async function DashboardPage() {
               border: '1px solid #1C2040',
             }}
           >
-            <div className="text-[11px] text-[#6B7299] font-semibold uppercase tracking-[0.08em] mb-2">{stat.label}</div>
+            <div className="text-[11px] text-[#8A93BC] font-semibold uppercase tracking-[0.08em] mb-2">{stat.label}</div>
             <div className="text-3xl font-black leading-none" style={{ color: stat.color }}>{stat.value}</div>
           </div>
         ))}
@@ -138,7 +138,7 @@ export default async function DashboardPage() {
       {/* Active events */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[11px] font-semibold text-[#6B7299] uppercase tracking-[0.08em]">Aktivni termini</h2>
+          <h2 className="text-[11px] font-semibold text-[#8A93BC] uppercase tracking-[0.08em]">Aktivni termini</h2>
           <span
             className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
             style={{
@@ -157,7 +157,7 @@ export default async function DashboardPage() {
               border: '1px dashed #1C2040',
             }}
           >
-            <p className="text-[#6B7299] text-sm mb-4">📅 Nemaš aktivnih termina</p>
+            <p className="text-[#8A93BC] text-sm mb-4">📅 Nemaš aktivnih termina</p>
             <Link
               href="/dashboard/novi"
               className="inline-block text-white text-sm font-semibold px-4 py-2.5 rounded-md transition bg-brand-purple hover:bg-brand-purple-light"
@@ -178,12 +178,12 @@ export default async function DashboardPage() {
       {pastEvents.length > 0 && (
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[11px] font-semibold text-[#6B7299] uppercase tracking-[0.08em]">Termini s isteklim rokom</h2>
+            <h2 className="text-[11px] font-semibold text-[#8A93BC] uppercase tracking-[0.08em]">Termini s isteklim rokom</h2>
             <span
               className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
               style={{
                 backgroundColor: 'rgba(255,255,255,0.05)',
-                color: '#6B7299',
+                color: '#8A93BC',
               }}
             >
               {pastEvents.length}

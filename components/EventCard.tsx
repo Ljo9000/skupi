@@ -69,16 +69,16 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
       >
         {/* Left: icon + name + meta */}
         <div className="flex items-start gap-3 min-w-0 flex-1">
-          <CalendarDays size={16} className="shrink-0 mt-0.5" style={{ color: '#6B7299' }} />
+          <CalendarDays size={16} aria-hidden="true" className="shrink-0 mt-0.5" style={{ color: '#8A93BC' }} />
           <div className="min-w-0">
             <div className="font-semibold text-white text-sm truncate">{event.naziv}</div>
-            <div className="text-xs text-[#6B7299] mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+            <div className="text-xs text-[#8A93BC] mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
               <span>{date.toLocaleDateString('hr-HR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
               {daysLeft > 0 && (
                 <span style={{ color: daysLeft <= 3 ? '#EF4444' : 'inherit' }}>za {daysLeft}d</span>
               )}
-              <span style={{ color: '#3C4154' }}>·</span>
-              <span className="font-mono" style={{ color: '#3C4154' }}>skupi.app/t/{event.slug}</span>
+              <span aria-hidden="true" style={{ color: '#8A93BC' }}>·</span>
+              <span className="font-mono" style={{ color: '#8A93BC' }}>skupi.app/t/{event.slug}</span>
             </div>
           </div>
         </div>
@@ -89,6 +89,11 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
             {(event.cijena_vlasnika / 100).toFixed(2)} €
           </div>
           <div
+            role="progressbar"
+            aria-valuenow={filled}
+            aria-valuemin={0}
+            aria-valuemax={event.max_sudionika}
+            aria-label="Popunjenost termina"
             className="shrink-0"
             style={{ width: '72px', height: '5px', backgroundColor: '#1C2040', borderRadius: '9999px', overflow: 'hidden' }}
           >

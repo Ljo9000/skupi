@@ -18,12 +18,12 @@ export default function EventActionButtons({ eventId, eventStatus, pendingCount 
         title={pendingCount === 0 ? 'Svi sudionici su platili' : `Pošalji podsjetnik ${pendingCount} neplaćenim sudionicima`}
         className="flex items-center gap-2 px-5 py-2.5 rounded-[10px] text-sm font-semibold border transition disabled:opacity-40 disabled:cursor-not-allowed"
         style={{
-          color: pendingCount > 0 ? '#A0A8C8' : '#6B7299',
+          color: pendingCount > 0 ? '#A0A8C8' : '#8A93BC',
           borderColor: '#2A2F55',
           backgroundColor: 'transparent',
         }}
       >
-        <Bell size={15} />
+        <Bell size={15} aria-hidden="true" />
         Pošalji podsjetnik
         {pendingCount > 0 && (
           <span
@@ -47,7 +47,7 @@ export default function EventActionButtons({ eventId, eventStatus, pendingCount 
               if (!confirm('Zatvori termin? Sve neuplaćene rezervacije bit će otkazane.')) e.preventDefault()
             }}
           >
-            <XCircle size={15} />
+            <XCircle size={15} aria-hidden="true" />
             Zatvori termin
           </button>
         </form>

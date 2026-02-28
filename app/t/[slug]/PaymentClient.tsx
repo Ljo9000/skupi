@@ -132,34 +132,34 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
         {/* Left: Event info */}
         <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden">
           {/* Event header */}
-          <div style={{ backgroundColor: '#13162A' }} className="p-6 border-b border-[#1C2040]">
-            <p className="text-[11px] uppercase tracking-widest text-[#6B7299] mb-2 font-medium">
+          <div className="bg-dark-800 p-6 border-b border-[#1C2040]">
+            <p className="text-[11px] uppercase tracking-widest text-[#8A93BC] mb-2 font-medium">
               {datumDate.toLocaleDateString('hr-HR', { weekday: 'long' })},{' '}
               {datumDate.toLocaleDateString('hr-HR', { day: 'numeric', month: 'long', year: 'numeric' })}
               {' · '}
               {datumDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </p>
             <h1 className="text-2xl font-black text-white leading-tight tracking-tight">{event.naziv}</h1>
-            {ownerName && <p className="text-[#6B7299] text-sm mt-1">{ownerName}</p>}
+            {ownerName && <p className="text-[#8A93BC] text-sm mt-1">{ownerName}</p>}
             {event.opis && <p className="text-[#A0A8C8] text-sm mt-2 leading-relaxed">{event.opis}</p>}
           </div>
 
           {/* Info grid */}
           <div className="p-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#A0A8C8] border-b border-[#1C2040]">
             <div className="inline-flex items-center gap-1.5">
-              <Calendar size={14} className="text-[#6B7299]" />
+              <Calendar size={14} aria-hidden="true" className="text-[#8A93BC]" />
               {datumDate.toLocaleDateString('hr-HR')}
             </div>
             <div className="inline-flex items-center gap-1.5">
-              <Clock size={14} className="text-[#6B7299]" />
+              <Clock size={14} aria-hidden="true" className="text-[#8A93BC]" />
               {datumDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </div>
             <div className="inline-flex items-center gap-1.5">
-              <Users size={14} className="text-[#6B7299]" />
+              <Users size={14} aria-hidden="true" className="text-[#8A93BC]" />
               {event.min_sudionika} · {event.max_sudionika}
             </div>
             <div className="inline-flex items-center gap-1.5">
-              <AlertCircle size={14} className="text-[#6B7299]" />
+              <AlertCircle size={14} aria-hidden="true" className="text-[#8A93BC]" />
               {rokDate.toLocaleDateString('hr-HR')} · {rokDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
@@ -167,10 +167,18 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
           {/* Progress section */}
           <div className="p-5 border-b border-[#1C2040]">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs uppercase tracking-widest text-[#6B7299] font-semibold">Mjesta</label>
+              <p className="text-xs uppercase tracking-widest text-[#8A93BC] font-semibold">Mjesta</p>
               <p className="text-sm font-semibold text-white">{paidCount} / {event.max_sudionika} popunjeno</p>
             </div>
-            <div style={{ backgroundColor: '#1C2040' }} className="h-2.5 rounded-full overflow-hidden mb-3">
+            <div
+              role="progressbar"
+              aria-valuenow={paidCount}
+              aria-valuemin={0}
+              aria-valuemax={event.max_sudionika}
+              aria-label="Popunjenost termina"
+              style={{ backgroundColor: '#1C2040' }}
+              className="h-2.5 rounded-full overflow-hidden mb-3"
+            >
               <div
                 className="h-full rounded-full transition-all duration-700"
                 style={{
@@ -187,7 +195,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                 />
               </div>
             </div>
-            <div className="flex justify-between text-[11px] text-[#6B7299] mt-1.5">
+            <div className="flex justify-between text-[11px] text-[#8A93BC] mt-1.5">
               <span>0</span>
               <span className="font-semibold text-[#F59E0B]">min: {event.min_sudionika}</span>
               <span>max: {event.max_sudionika}</span>
@@ -195,7 +203,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
 
             {paidCount >= event.min_sudionika && (
               <div style={{ backgroundColor: 'rgba(34,197,94,0.08)', borderColor: 'rgba(34,197,94,0.2)' }} className="mt-3 border rounded-md px-3 py-2.5 flex items-center gap-2 text-sm font-medium text-[#22C55E]">
-                <CheckCircle2 size={16} />
+                <CheckCircle2 size={16} aria-hidden="true" />
                 Minimum dostignut — rezervacija će biti potvrđena!
               </div>
             )}
@@ -203,8 +211,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
 
           {/* Participants */}
           {participants.length > 0 && (
-            <div style={{ backgroundColor: '#13162A' }} className="px-5 py-5">
-              <p className="text-[11px] uppercase tracking-widest text-[#6B7299] font-semibold mb-3">Već platili</p>
+            <div className="bg-dark-800 px-5 py-5">
+              <p className="text-[11px] uppercase tracking-widest text-[#8A93BC] font-semibold mb-3">Već platili</p>
               <div className="flex flex-wrap gap-2.5">
                 {participants.map((p, i) => (
                   <div key={p.id} className="flex items-center gap-2">
@@ -215,8 +223,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                       {p.ime.charAt(0).toUpperCase()}
                     </div>
                     <span className="text-sm font-medium text-white">{p.ime.split(' ')[0]}</span>
-                    <CheckCircle2 size={13} className="text-[#22C55E] ml-1" />
-                    <span className="text-xs text-[#6B7299]">plaćeno</span>
+                    <CheckCircle2 size={13} aria-hidden="true" className="text-[#22C55E] ml-1" />
+                    <span className="text-xs text-[#8A93BC]">plaćeno</span>
                   </div>
                 ))}
               </div>
@@ -245,9 +253,9 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                   <span className="font-medium">{paidCount} / {event.max_sudionika} platilo</span>
                 </div>
               </div>
-              <p className="mt-4 text-xs text-[#6B7299]">
+              <p className="mt-4 text-xs text-[#8A93BC]">
                 Planovi su se promijenili?{' '}
-                <span className="text-[#6B7299]">
+                <span className="text-[#8A93BC]">
                   Link za odjavu je poslan na tvoj email.
                 </span>
               </p>
@@ -281,7 +289,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                     </div>
                     <div>
                       <h2 className="text-base font-bold text-white">Termin je popunjen</h2>
-                      <p className="text-xs text-[#6B7299]">Stavi se na listu čekanja</p>
+                      <p className="text-xs text-[#8A93BC]">Stavi se na listu čekanja</p>
                     </div>
                   </div>
                   <WaitingListForm
@@ -292,7 +300,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
               ) : (
                 <>
                   <h2 className="text-lg font-bold text-white mb-0.5">Rezerviraj mjesto</h2>
-                  <p className="text-xs text-[#6B7299] mb-4">
+                  <p className="text-xs text-[#8A93BC] mb-4">
                     {isActive
                       ? 'Uplata se zamrzava dok se ne skupi minimum.'
                       : isExpired
@@ -306,7 +314,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                       <span>{event.naziv}</span>
                       <span>{cijenaVlasnika.toFixed(2)} €</span>
                     </div>
-                    <div className="flex justify-between text-sm text-[#6B7299]">
+                    <div className="flex justify-between text-sm text-[#8A93BC]">
                       <span>Naknada za uslugu</span>
                       <span>{serviceFee.toFixed(2)} €</span>
                     </div>
@@ -325,19 +333,19 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
                       onFull={() => setPaidCount(event.max_sudionika)}
                     />
                   ) : (
-                    <div style={{ backgroundColor: '#1C2040', color: '#6B7299' }} className="w-full py-3 rounded-md text-center text-sm font-medium">
+                    <div style={{ backgroundColor: '#1C2040', color: '#8A93BC' }} className="w-full py-3 rounded-md text-center text-sm font-medium">
                       {isExpired ? '⏰ Rok uplate je prošao' : 'Nije dostupno'}
                     </div>
                   )}
 
-                  <div className="flex items-center justify-center gap-2 text-xs text-[#6B7299] mt-3">
-                    <ShieldCheck size={13} />
+                  <div className="flex items-center justify-center gap-2 text-xs text-[#8A93BC] mt-3">
+                    <ShieldCheck size={13} aria-hidden="true" />
                     Stripe sigurno plaćanje
                   </div>
 
                   <div style={{ borderTopColor: '#1C2040' }} className="mt-4 pt-5 border-t">
                     <p className="text-xs text-[#F59E0B] leading-relaxed flex items-start gap-2.5">
-                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <AlertCircle size={16} aria-hidden="true" className="shrink-0 mt-0.5" />
                       <span>Ako se do roka ne skupi <strong>{event.min_sudionika}</strong> sudionika, automatski se vraća sav novac. Bez naknada.</span>
                     </p>
                   </div>
@@ -351,7 +359,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
       {/* Footer */}
       <footer style={{ borderTopColor: '#1C2040' }} className="border-t mt-10 py-5">
         <div className="max-w-4xl mx-auto px-4 flex justify-between items-center">
-          <p className="text-[#6B7299] text-xs">
+          <p className="text-[#8A93BC] text-xs">
             Powered by <span className="font-bold text-white">skupi</span>.
           </p>
           <Link href="/" className="text-xs font-semibold text-[#6C47FF] hover:underline">

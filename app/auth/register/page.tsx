@@ -56,7 +56,7 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ background: '#0D0F1A' }}>
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-dark-900">
         <div className="w-full max-w-sm text-center">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl"
                style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}>
@@ -88,7 +88,7 @@ export default function RegisterPage() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-12 relative z-10">
         <div className="w-full max-w-sm">
-          <div className="rounded-2xl border border-dark-700 p-8" style={{ background: '#13162A', boxShadow: '0 16px 60px rgba(0,0,0,0.6)' }}>
+          <div className="rounded-2xl border border-dark-700 p-8 bg-dark-800 shadow-dark-lg">
             <h1 className="text-2xl font-black text-white mb-1">Kreiraj besplatan račun</h1>
             <div className="flex flex-wrap gap-x-4 gap-y-1 mb-6 mt-3">
               {['Besplatno', 'Bez kreditne kartice', '30s postavljanje'].map((b) => (
@@ -107,12 +107,13 @@ export default function RegisterPage() {
 
             <form onSubmit={handleRegister} className="space-y-4">
               {[
-                { label: 'Ime i prezime', value: ime, setter: setIme, type: 'text', placeholder: 'Tvoje ime i prezime' },
-                { label: 'Email adresa',  value: email, setter: setEmail, type: 'email', placeholder: 'email@primjer.hr' },
-              ].map(({ label, value, setter, type, placeholder }) => (
+                { id: 'ime',   label: 'Ime i prezime', value: ime, setter: setIme, type: 'text', placeholder: 'Tvoje ime i prezime' },
+                { id: 'email', label: 'Email adresa',  value: email, setter: setEmail, type: 'email', placeholder: 'email@primjer.hr' },
+              ].map(({ id, label, value, setter, type, placeholder }) => (
                 <div key={label}>
-                  <label className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">{label}</label>
+                  <label htmlFor={id} className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">{label}</label>
                   <input
+                    id={id}
                     type={type}
                     value={value}
                     onChange={(e) => setter(e.target.value)}
@@ -127,15 +128,17 @@ export default function RegisterPage() {
               ))}
 
               <div>
-                <label className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">Lozinka</label>
+                <label htmlFor="password" className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">Lozinka</label>
                 <div className="relative">
                   <input
+                    id="password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Najmanje 8 znakova"
                     minLength={8}
                     required
+                    aria-describedby="password-strength"
                     className="w-full px-3.5 py-2.5 pr-10 rounded-md text-sm text-white placeholder-text-muted focus:outline-none transition"
                     style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
                     onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
@@ -147,7 +150,7 @@ export default function RegisterPage() {
                   </button>
                 </div>
                 {password.length > 0 && (
-                  <div className="mt-2">
+                  <div id="password-strength" className="mt-2" aria-live="polite">
                     <div className="flex gap-1 mb-1">
                       {[1,2,3,4].map((i) => (
                         <div key={i} className="h-1 flex-1 rounded-full transition-colors duration-200"

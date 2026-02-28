@@ -56,31 +56,30 @@ export default function CancelClient({
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#f9fafb' }}>
+    <div className="min-h-screen bg-dark-900">
       {/* Header */}
-      <header style={{ background: '#1a2b4a' }} className="px-6 py-4">
-        <span className="text-white text-xl font-black">skupi<span className="text-blue-400">.</span></span>
+      <header className="bg-dark-800 border-b border-dark-700 px-6 py-4">
+        <span className="text-white text-xl font-black">skupi<span className="text-brand-purple">.</span></span>
       </header>
 
       <div className="max-w-md mx-auto px-4 py-12">
-        <div className="bg-white rounded-2xl border border-gray-200 p-8">
+        <div className="bg-dark-800 rounded-2xl border border-dark-700 p-8">
 
           {done ? (
             /* ── Success state ─────────────────────── */
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"
-                   style={{ background: '#d1fae5' }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 bg-success/20">
                 ✅
               </div>
-              <h1 className="text-xl font-bold text-gray-900 mb-2">Odjava uspješna</h1>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                Tvoja rezervacija za <strong>{eventName}</strong> je otkazana.
-                Iznos od <strong>{amount}</strong> neće biti naplaćen.
+              <h1 className="text-xl font-bold text-white mb-2">Odjava uspješna</h1>
+              <p className="text-text-secondary text-sm leading-relaxed mb-6">
+                Tvoja rezervacija za <strong className="text-white">{eventName}</strong> je otkazana.
+                Iznos od <strong className="text-white">{amount}</strong> neće biti naplaćen.
                 Dobit ćeš potvrdu na email.
               </p>
               <button
                 onClick={() => router.push(`/t/${slug}`)}
-                className="text-sm text-blue-600 hover:text-blue-500 font-medium transition"
+                className="text-sm text-brand-purple hover:underline font-medium transition"
               >
                 ← Vrati se na termin
               </button>
@@ -89,17 +88,16 @@ export default function CancelClient({
           ) : alreadyCancelled ? (
             /* ── Already cancelled ────────────────── */
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"
-                   style={{ background: '#f3f4f6' }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 bg-dark-600">
                 ℹ️
               </div>
-              <h1 className="text-xl font-bold text-gray-900 mb-2">Već otkazano</h1>
-              <p className="text-gray-500 text-sm mb-6">
+              <h1 className="text-xl font-bold text-white mb-2">Već otkazano</h1>
+              <p className="text-text-secondary text-sm mb-6">
                 Ova rezervacija je već prethodno otkazana.
               </p>
               <button
                 onClick={() => router.push(`/t/${slug}`)}
-                className="text-sm text-blue-600 hover:text-blue-500 font-medium transition"
+                className="text-sm text-brand-purple hover:underline font-medium transition"
               >
                 ← Vrati se na termin
               </button>
@@ -109,35 +107,34 @@ export default function CancelClient({
             /* ── Confirm cancellation ─────────────── */
             <>
               <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"
-                     style={{ background: '#fef2f2' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 bg-error/10">
                   ⚠️
                 </div>
-                <h1 className="text-xl font-bold text-gray-900 mb-1">Odustati od rezervacije?</h1>
-                <p className="text-gray-500 text-sm">Ova akcija se ne može poništiti.</p>
+                <h1 className="text-xl font-bold text-white mb-1">Odustati od rezervacije?</h1>
+                <p className="text-text-secondary text-sm">Ova akcija se ne može poništiti.</p>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-4 mb-6 space-y-2 text-sm">
+              <div className="bg-dark-900 rounded-xl p-4 mb-6 space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Ime</span>
-                  <span className="font-semibold text-gray-800">{guestName}</span>
+                  <span className="text-text-secondary">Ime</span>
+                  <span className="font-semibold text-white">{guestName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Termin</span>
-                  <span className="font-semibold text-gray-800">{eventName}</span>
+                  <span className="text-text-secondary">Termin</span>
+                  <span className="font-semibold text-white">{eventName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Datum</span>
-                  <span className="font-semibold text-gray-800">{eventDate}</span>
+                  <span className="text-text-secondary">Datum</span>
+                  <span className="font-semibold text-white">{eventDate}</span>
                 </div>
-                <div className="flex justify-between border-t border-gray-200 pt-2 mt-1">
-                  <span className="text-gray-500">Iznos</span>
-                  <span className="font-bold text-gray-800">{amount}</span>
+                <div className="flex justify-between border-t border-dark-700 pt-2 mt-1">
+                  <span className="text-text-secondary">Iznos</span>
+                  <span className="font-bold text-white">{amount}</span>
                 </div>
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-3 py-2 mb-4">
+                <div className="bg-error/10 border border-error/30 text-error text-sm rounded-lg px-3 py-2 mb-4">
                   {error}
                 </div>
               )}
@@ -145,8 +142,7 @@ export default function CancelClient({
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className="w-full py-3 rounded-xl text-sm font-bold text-white transition flex items-center justify-center gap-2 disabled:opacity-60"
-                style={{ background: loading ? '#9ca3af' : '#ef4444' }}
+                className="w-full py-3 rounded-xl text-sm font-bold text-white bg-error transition flex items-center justify-center gap-2 disabled:opacity-60 hover:opacity-90"
               >
                 {loading ? (
                   <>
@@ -160,7 +156,7 @@ export default function CancelClient({
 
               <button
                 onClick={() => router.push(`/t/${slug}`)}
-                className="w-full mt-3 py-3 rounded-xl text-sm font-semibold text-gray-500 hover:text-gray-700 transition"
+                className="w-full mt-3 py-3 rounded-xl text-sm font-semibold text-text-secondary hover:text-white transition"
               >
                 Odustani — zadrži rezervaciju
               </button>
@@ -169,21 +165,20 @@ export default function CancelClient({
           ) : (
             /* ── Cannot cancel ────────────────────── */
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"
-                   style={{ background: '#fef3c7' }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 bg-warning/10">
                 🔒
               </div>
-              <h1 className="text-xl font-bold text-gray-900 mb-2">Otkazivanje nije moguće</h1>
-              <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+              <h1 className="text-xl font-bold text-white mb-2">Otkazivanje nije moguće</h1>
+              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
                 Ova rezervacija se ne može otkazati u trenutnom statusu.
                 Kontaktiraj nas na{' '}
-                <a href="mailto:podrska@skupi.app" className="text-indigo-600">
+                <a href="mailto:podrska@skupi.app" className="text-brand-purple hover:underline">
                   podrska@skupi.app
                 </a>
               </p>
               <button
                 onClick={() => router.push(`/t/${slug}`)}
-                className="text-sm text-blue-600 hover:text-blue-500 font-medium transition"
+                className="text-sm text-brand-purple hover:underline font-medium transition"
               >
                 ← Vrati se na termin
               </button>
