@@ -33,40 +33,22 @@ const faqs = [
 // ── Feature grid data ─────────────────────────────────────────
 const features = [
   {
-    icon: <ShieldCheck size={20} aria-hidden="true" />,
-    title: 'Stripe sigurnost',
-    desc: 'Plaćanja su zaštićena Stripe infrastrukturom. Isti standard koji koriste globalne fintech kompanije.',
-    color: 'text-brand-purple bg-brand-purple/10',
-  },
-  {
     icon: <Zap size={20} aria-hidden="true" />,
-    title: 'Radi u sekundi',
-    desc: 'Bez registracije za sudionike — samo link. Otvore, unesu ime, plate karticom. Gotovo.',
+    title: 'Bez registracije za sudionike',
+    desc: 'Otvore link, unesu ime, plate karticom. Gotovo. Nema prijava, nema lozinki, nema frke.',
     color: 'text-success bg-success/10',
   },
   {
     icon: <Undo2 size={20} aria-hidden="true" />,
-    title: 'Automatski refund',
-    desc: 'Ako minimum nije skupljen do roka, sav novac se automatski vraća. Bez naknade.',
+    title: 'Automatski refund ako ne ide',
+    desc: 'Ako minimum nije skupljen do roka, sav novac se automatski vraća svima. Bez naknade.',
     color: 'text-warning bg-warning/10',
-  },
-  {
-    icon: <Users size={20} aria-hidden="true" />,
-    title: 'Grupe do 50 osoba',
-    desc: 'Radi za sportske grupe, izlete, djevojačke večeri, zajednička putovanja i večere.',
-    color: 'text-blue-400 bg-blue-400/10',
   },
   {
     icon: <LinkIcon size={20} aria-hidden="true" />,
     title: 'Dijeli gdje hoćeš',
     desc: 'WhatsApp, Viber, email, SMS — jedan link radi svugdje. QR kod za ispis na ulazu.',
     color: 'text-pink-400 bg-pink-400/10',
-  },
-  {
-    icon: <CreditCard size={20} aria-hidden="true" />,
-    title: 'Plaćanje karticom',
-    desc: 'Visa, Mastercard, Apple Pay i Google Pay. Sudionici plaćaju metodom koja im odgovara.',
-    color: 'text-teal-400 bg-teal-400/10',
   },
 ]
 
@@ -229,18 +211,18 @@ export default function LandingPage() {
               Kako funkcionira
             </div>
             <h2 className="text-3xl font-black tracking-tight mb-3">
-              Tri koraka do potvrđene rezervacije
+              Tri koraka. Svi plate. Idete.
             </h2>
             <p className="text-lg text-text-secondary max-w-xl leading-relaxed">
-              Od ideje do plaćene rezervacije za cijelu grupu — bez prebacivanja novca.
+              Od ideje do skupljene uplate za cijelu grupu — bez prebacivanja novca.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-5">
             {[
-              { num: '01', icon: <Pencil size={20} aria-hidden="true" />, title: 'Kreiraj termin', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
+              { num: '01', icon: <Pencil size={20} aria-hidden="true" />, title: 'Kreiraj plan', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
               { num: '02', icon: <Share2 size={20} aria-hidden="true" />, title: 'Podijeli link',   desc: 'Pošalji Viber ili WhatsApp grupi. Svaki sudionik otvori i plati karticom. Nema registracije.' },
-              { num: '03', icon: <CheckCircle2 size={20} aria-hidden="true" />, title: 'skupi. potvrdi', desc: 'Kad svi plate, automatski naplaćujemo i potvrđujemo. Ako se ne popuni — refundiramo sve.' },
+              { num: '03', icon: <CheckCircle2 size={20} aria-hidden="true" />, title: 'Potvrda ili refund', desc: 'Kad svi plate, automatski naplaćujemo i potvrđujemo. Ako se ne popuni — refundiramo sve.' },
             ].map((s) => (
               <div key={s.num}
                    className="group rounded-xl border border-dark-700 p-6 transition duration-200 hover:-translate-y-1 hover:border-brand-purple/40"
@@ -263,7 +245,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">Zašto skupi.</div>
-            <h2 className="text-3xl font-black tracking-tight">Sve što trebaš, ništa što ne trebaš</h2>
+            <h2 className="text-3xl font-black tracking-tight">Organiziraš lako. Oni plaćaju lako.</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
