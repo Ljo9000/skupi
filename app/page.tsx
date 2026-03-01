@@ -312,7 +312,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-10">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">FAQ</div>
-            <h2 className="text-3xl font-black tracking-tight">Često postavljana pitanja</h2>
+            <h2 className="text-3xl font-black tracking-tight">Imaš pitanja?</h2>
           </div>
 
           <div className="max-w-[680px] mx-auto divide-y divide-dark-700">
@@ -343,7 +343,7 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="relative mt-4 text-xs text-text-muted">
-            <span aria-hidden="true">✦</span> Bez pretplate · Bez naknade za postavljanje · Stripe zaštita
+            <span aria-hidden="true">✦</span> Bez pretplate · Besplatno za organizatora · Stripe zaštita
           </p>
         </div>
       </section>
@@ -362,7 +362,7 @@ export default function LandingPage() {
               <a key={l} href="#" className="text-sm text-text-muted hover:text-text-secondary transition">{l}</a>
             ))}
           </div>
-          <p className="text-sm text-text-muted">© 2025 skupi. — Sva prava pridržana</p>
+          <p className="text-sm text-text-muted">© 2026 skupi. — Sva prava pridržana</p>
         </div>
       </footer>
 
