@@ -111,7 +111,7 @@ export default function LandingPage() {
               </div>
 
               <h1 className="text-[clamp(2.5rem,5vw,3.75rem)] font-black leading-[1.05] tracking-tight text-white mb-0">
-                Skupi ekipu. Podijeli link.
+                Skupi ekipu.<br />Podijeli link.
               </h1>
               <h2 className="text-[clamp(2.5rem,5vw,3.75rem)] font-black leading-[1.05] tracking-tight mb-5"
                   style={{ color: '#6C47FF', textShadow: '0 0 40px rgba(108,71,255,0.4)' }}>
