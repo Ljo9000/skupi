@@ -220,7 +220,7 @@ export default function LandingPage() {
 
           <div className="grid sm:grid-cols-3 gap-5">
             {[
-              { num: '01', icon: <Pencil size={20} aria-hidden="true" />, title: 'Kreiraj plan', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
+              { num: '01', icon: <Pencil size={20} aria-hidden="true" />, title: 'Postavi detalje', desc: 'Unesi naziv, datum, cijenu i broj mjesta. Gotovo za 30 sekundi — link se generira automatski.' },
               { num: '02', icon: <Share2 size={20} aria-hidden="true" />, title: 'Podijeli link',   desc: 'Pošalji Viber ili WhatsApp grupi. Svaki sudionik otvori i plati karticom. Nema registracije.' },
               { num: '03', icon: <CheckCircle2 size={20} aria-hidden="true" />, title: 'Potvrda ili refund', desc: 'Kad svi plate, automatski naplaćujemo i potvrđujemo. Ako se ne popuni — refundiramo sve.' },
             ].map((s) => (
@@ -328,9 +328,9 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 text-center relative">
           <div className="absolute inset-0 pointer-events-none"
                style={{ background: 'radial-gradient(ellipse at center, rgba(108,71,255,0.07) 0%, transparent 70%)' }} />
-          <h2 className="relative text-4xl font-black tracking-tight mb-3">Spreman za prvi plan?</h2>
+          <h2 className="relative text-4xl font-black tracking-tight mb-3">Skupi svoju prvu ekipu.</h2>
           <p className="relative text-lg text-text-secondary mb-8">
-            Kreiraj plan za 30 sekundi. Besplatno, bez kreditne kartice.
+            Postavi detalje za 30 sekundi. Besplatno, bez kreditne kartice.
           </p>
           <div className="relative flex justify-center gap-3 flex-wrap">
             <Link href="/auth/register"
