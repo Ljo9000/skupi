@@ -232,8 +232,8 @@ export default function LandingPage() {
                      style={{ background: 'rgba(108,71,255,0.13)' }}>
                   {s.icon}
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">{s.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{s.desc}</p>
+                <h3 className="text-lg font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-base text-text-secondary leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -256,8 +256,8 @@ export default function LandingPage() {
                 <div className={`w-9 h-9 rounded-md flex items-center justify-center mb-3.5 ${f.color}`}>
                   {f.icon}
                 </div>
-                <h3 className="text-sm font-bold text-white mb-1.5">{f.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{f.desc}</p>
+                <h3 className="text-base font-bold text-white mb-1.5">{f.title}</h3>
+                <p className="text-base text-text-secondary leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -270,7 +270,7 @@ export default function LandingPage() {
           <div className="text-center mb-10">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">Cijene</div>
             <h2 className="text-3xl font-black tracking-tight mb-2">Transparentno i jednostavno</h2>
-            <p className="text-text-secondary">Plaćaš samo kad zaradiš. Nema pretplate, nema skrivenih troškova.</p>
+            <p className="text-text-secondary">Plaćaš samo kad skupiš uplate. Nema pretplate, nema skrivenih troškova.</p>
           </div>
 
           <div className="relative max-w-[560px] mx-auto rounded-2xl border border-dark-700 p-8 overflow-hidden"
@@ -279,23 +279,17 @@ export default function LandingPage() {
             <div className="absolute top-0 left-0 right-0 h-0.5"
                  style={{ background: 'linear-gradient(90deg, #6C47FF, #22C55E)' }} />
 
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border mb-5"
-                 style={{ background: 'rgba(34,197,94,0.12)', borderColor: 'rgba(34,197,94,0.2)', color: '#22C55E' }}>
-              <CheckCircle2 size={11} aria-hidden="true" /> Besplatno za organizatora
-            </div>
-
-            <h3 className="text-xl font-bold text-white mb-5">Što gost plaća za termin od 5 €</h3>
+            <h3 className="text-xl font-bold text-white mb-5">Što sudionik plaća za udio od 5 €</h3>
 
             <div className="space-y-0 divide-y divide-dark-700">
               {[
                 { label: 'Tvoja cijena (organizator prima)', val: '5.00 €', accent: false },
                 { label: 'skupi. komisija (5%)',              val: '0.25 €', accent: false },
                 { label: 'Stripe naknada (1.5% + 0.25 €)',   val: '0.33 €', accent: false },
-                { label: 'Naknada za postavljanje',           val: '€0',    accent: 'green' },
               ].map((r) => (
                 <div key={r.label} className="flex justify-between items-center py-3">
-                  <span className="text-sm text-text-secondary">{r.label}</span>
-                  <span className={`text-sm font-semibold font-mono ${r.accent === 'green' ? 'text-success' : 'text-white'}`}>
+                  <span className="text-base text-text-secondary">{r.label}</span>
+                  <span className="text-base font-semibold font-mono text-white">
                     {r.val}
                   </span>
                 </div>
@@ -305,10 +299,10 @@ export default function LandingPage() {
             {/* Total */}
             <div className="mt-4 flex justify-between items-center px-4 py-3.5 rounded-md border"
                  style={{ background: 'rgba(108,71,255,0.1)', borderColor: 'rgba(108,71,255,0.2)' }}>
-              <span className="font-bold text-white">Gost plaća ukupno</span>
+              <span className="font-bold text-white">Sudionik plaća ukupno</span>
               <span className="text-xl font-black text-brand-purple-light font-mono">5.58 €</span>
             </div>
-            <p className="text-xs text-text-muted text-center mt-2.5">Primjer za termin od 5.00 € po osobi</p>
+            <p className="text-sm text-text-muted text-center mt-2.5">Primjer za udio od 5.00 € po sudioniku</p>
           </div>
         </div>
       </section>
@@ -334,9 +328,9 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 text-center relative">
           <div className="absolute inset-0 pointer-events-none"
                style={{ background: 'radial-gradient(ellipse at center, rgba(108,71,255,0.07) 0%, transparent 70%)' }} />
-          <h2 className="relative text-4xl font-black tracking-tight mb-3">Spreman za prvu rezervaciju?</h2>
+          <h2 className="relative text-4xl font-black tracking-tight mb-3">Spreman za prvi plan?</h2>
           <p className="relative text-lg text-text-secondary mb-8">
-            Kreiraj termin za 30 sekundi. Besplatno, bez kreditne kartice.
+            Kreiraj plan za 30 sekundi. Besplatno, bez kreditne kartice.
           </p>
           <div className="relative flex justify-center gap-3 flex-wrap">
             <Link href="/auth/register"
