@@ -220,29 +220,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── STATS STRIP ─────────────────────────────────────── */}
-      <section className="pb-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 sm:grid-cols-4 rounded-xl overflow-hidden border border-dark-700"
-               style={{ background: 'rgba(19,22,42,0.7)' }}>
-            {[
-              { num: '5%',   l1: 'Skupi komisija',          l2: '+ Stripe naknade',          accent: true },
-              { num: '30s',  l1: 'Kreiranje termina',        l2: 'bez postavljanja',           accent: false },
-              { num: '€0',   l1: 'Naknada za postavljanje',  l2: 'besplatno za organizatora',  accent: true },
-              { num: '100%', l1: 'Automatska potvrda',       l2: 'i refund ako ne uspije',     accent: false },
-            ].map((s, i) => (
-              <div key={s.l1}
-                   className={`py-7 px-4 text-center ${i < 3 ? 'border-r border-dark-700' : ''} ${i >= 2 ? 'border-t sm:border-t-0 border-dark-700' : ''}`}>
-                <div className={`text-3xl font-black mb-1 ${s.accent ? 'text-brand-purple' : 'text-white'}`}>
-                  {s.num}
-                </div>
-                <div className="text-sm text-text-secondary font-medium">{s.l1}</div>
-                <div className="text-xs text-text-muted mt-0.5">{s.l2}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── HOW IT WORKS ────────────────────────────────────── */}
       <section id="kako-funkcionira" className="py-24 border-t border-dark-700">
