@@ -12,6 +12,25 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'skupi. — Grupne uplate bez kaosa',
   description: 'Jedan link. Svi plate. Rezervacija potvrđena.',
+  openGraph: {
+    title: 'skupi. — Grupne uplate bez kaosa',
+    description: 'Jedan link. Svi plate. Rezervacija potvrđena.',
+    type: 'website',
+    images: [
+      {
+        url: '/og-default.png',
+        width: 1200,
+        height: 630,
+        alt: 'skupi. — Grupne uplate bez kaosa',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'skupi. — Grupne uplate bez kaosa',
+    description: 'Jedan link. Svi plate. Rezervacija potvrđena.',
+    images: ['/og-default.png'],
+  },
 }
 
 export default function RootLayout({

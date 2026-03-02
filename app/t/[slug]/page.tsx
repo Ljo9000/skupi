@@ -47,12 +47,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: event.naziv,
       description,
       type: 'website',
-      images: [],
+      images: [
+        {
+          url: '/og-default.png',
+          width: 1200,
+          height: 630,
+          alt: event.naziv,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: event.naziv,
       description,
+      images: ['/og-default.png'],
     },
   }
 }
