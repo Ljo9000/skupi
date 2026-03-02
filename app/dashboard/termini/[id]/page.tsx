@@ -68,7 +68,7 @@ export default async function TerminDetaljPage({
 
   return (
     <div className="transparent min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Back link */}
         <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-[#8A93BC] hover:text-white transition">
           <ArrowLeft className="w-4 h-4" aria-hidden="true" />
@@ -89,7 +89,7 @@ export default async function TerminDetaljPage({
         {/* Event header */}
         <div className="mt-6 flex items-start justify-between gap-4">
           <div className="min-w-0 flex-1">
-            <h1 className="text-3xl font-black text-white tracking-tight">{event.naziv}</h1>
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight break-words">{event.naziv}</h1>
             <p className="text-[#A0A8C8] text-sm mt-1">
               {datumDate.toLocaleDateString('hr-HR', { weekday:'long', year:'numeric', month:'long', day:'numeric' })}
               {' · '}{datumDate.toLocaleTimeString('hr-HR', { hour:'2-digit', minute:'2-digit' })}
@@ -137,16 +137,19 @@ export default async function TerminDetaljPage({
                   {paidCount >= event.min_sudionika && <span className="ml-1 text-xs text-[#22C55E]">✓</span>}
                 </span>
               </div>
-              <div
-                role="progressbar"
-                aria-valuenow={paidCount}
-                aria-valuemin={0}
-                aria-valuemax={event.max_sudionika}
-                aria-label="Popunjenost termina"
-                className="h-[10px] bg-[#1C2040] rounded-full overflow-hidden relative mb-[10px]"
-              >
-                <div className="absolute top-0 bottom-0 w-0.5 bg-[#F59E0B] z-10" style={{ left:`${minPct}%` }} />
-                <div className="h-full rounded-full transition-all duration-500" style={{ width:`${pct}%`, background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF, #22C55E)':'linear-gradient(90deg, #6C47FF, #8B6FFF)' }} />
+              <div className="relative mb-[10px]">
+                <div
+                  role="progressbar"
+                  aria-valuenow={paidCount}
+                  aria-valuemin={0}
+                  aria-valuemax={event.max_sudionika}
+                  aria-label="Popunjenost termina"
+                  className="h-[10px] bg-[#1C2040] rounded-full overflow-hidden"
+                >
+                  <div className="h-full rounded-full transition-all duration-500" style={{ width:`${pct}%`, background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF, #22C55E)':'linear-gradient(90deg, #6C47FF, #8B6FFF)' }} />
+                </div>
+                {/* Min marker outside overflow-hidden so it's visible */}
+                <div className="absolute top-0 h-[10px] w-0.5 bg-[#F59E0B] rounded-full" style={{ left:`calc(${minPct}% - 1px)` }} />
               </div>
               <div className="flex justify-between text-xs text-[#8A93BC] mb-3">
                 <span>0</span><span className="text-[#F59E0B] font-medium">min {event.min_sudionika}</span><span>max {event.max_sudionika}</span>
@@ -207,11 +210,13 @@ export default async function TerminDetaljPage({
                           const avatarColor = avatarColors[idx % 8]
                           return (
                             <tr key={p.id} className="border-b border-[#1C2040] last:border-0 hover:bg-[rgba(255,255,255,0.02)] transition">
-                              <td className="px-4 py-3 font-medium text-white flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ background: avatarColor }}>
-                                  {initials}
+                              <td className="px-4 py-3 font-medium text-white">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ background: avatarColor }}>
+                                    {initials}
+                                  </div>
+                                  <span className="truncate">{p.ime}</span>
                                 </div>
-                                {p.ime}
                               </td>
                               <td className="px-4 py-3 text-[#8A93BC] hidden sm:table-cell">{p.email}</td>
                               <td className="px-4 py-3 text-right font-semibold text-white">{(p.iznos_total/100).toFixed(2)} €</td>
@@ -236,7 +241,7 @@ export default async function TerminDetaljPage({
           </div>
 
           {/* Right column - QR Card */}
-          <div className="sticky top-20">
+          <div className="lg:sticky lg:top-20">
             <QRCodeCard url={paymentUrl} eventName={event.naziv} />
           </div>
         </div>
