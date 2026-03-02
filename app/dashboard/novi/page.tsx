@@ -86,7 +86,7 @@ export default function NoviTerminPage() {
       </div>
 
       <form action={formAction}>
-        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-7 space-y-5">
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-5 sm:p-7 space-y-5">
 
           {state.error && (
             <div role="alert" style={{ backgroundColor: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.2)' }} className="border rounded-lg px-3.5 py-3 text-sm text-[#FCA5A5]">

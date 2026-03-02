@@ -162,7 +162,7 @@ export default async function TerminDetaljPage({
             </div>
 
             {/* Info card */}
-            <div className="bg-[#13162A] border border-[#1C2040] rounded-[16px] p-5 grid grid-cols-2 gap-4">
+            <div className="bg-[#13162A] border border-[#1C2040] rounded-[16px] p-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
                 <p className="text-xs uppercase tracking-wide text-[#8A93BC] font-semibold mb-1">Vlasnik prima</p>
                 <p className="font-bold text-white text-lg">{(event.cijena_vlasnika/100).toFixed(2)} €</p>
@@ -175,9 +175,9 @@ export default async function TerminDetaljPage({
                 <p className="text-xs uppercase tracking-wide text-[#8A93BC] font-semibold mb-1">Rok uplate</p>
                 <p className="font-semibold text-white text-sm">{rokDate.toLocaleDateString('hr-HR')} · {rokDate.toLocaleTimeString('hr-HR',{hour:'2-digit',minute:'2-digit'})}</p>
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-xs uppercase tracking-wide text-[#8A93BC] font-semibold mb-1">Link slug</p>
-                <p className="font-mono text-sm text-[#8A93BC]">/t/{event.slug}</p>
+                <p className="font-mono text-sm text-[#8A93BC] truncate">/t/{event.slug}</p>
               </div>
             </div>
 
