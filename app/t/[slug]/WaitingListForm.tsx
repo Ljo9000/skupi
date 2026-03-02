@@ -54,12 +54,12 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <p className="text-xs text-gray-500 leading-relaxed mb-1">
+      <p className="text-xs text-[#8A93BC] leading-relaxed mb-1">
         Ako netko odustane, odmah ćeš biti obaviješten/a emailom.
       </p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg px-3 py-2">
+        <div className="text-xs rounded-lg px-3 py-2" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#FCA5A5' }}>
           {error}
         </div>
       )}
@@ -119,7 +119,7 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
 
       {showMsgApps && (
         <div className="space-y-2 pt-1">
-          <p className="text-xs font-semibold text-gray-600">Obavijesti me i na:</p>
+          <p className="text-xs font-semibold text-[#8A93BC]">Obavijesti me i na:</p>
           <label className="flex items-center gap-2.5 cursor-pointer">
             <input
               type="checkbox"
@@ -127,7 +127,7 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
               onChange={e => setNotifyWhatsapp(e.target.checked)}
               className="w-4 h-4 rounded accent-green-500"
             />
-            <span className="text-sm text-gray-700">WhatsApp</span>
+            <span className="text-sm text-white">WhatsApp</span>
           </label>
           <label className="flex items-center gap-2.5 cursor-pointer">
             <input
@@ -136,7 +136,7 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
               onChange={e => setNotifyViber(e.target.checked)}
               className="w-4 h-4 rounded accent-purple-500"
             />
-            <span className="text-sm text-gray-700">Viber</span>
+            <span className="text-sm text-white">Viber</span>
           </label>
         </div>
       )}

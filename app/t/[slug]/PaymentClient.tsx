@@ -129,8 +129,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
 
       <div className="max-w-4xl mx-auto px-4 py-8 grid gap-5 md:grid-cols-[1fr_360px] items-start">
 
-        {/* Left: Event info */}
-        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden">
+        {/* Left: Event info — shown below checkout on mobile */}
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden order-2 md:order-1">
           {/* Event header */}
           <div className="bg-dark-800 p-6 border-b border-[#1C2040]">
             <p className="text-[11px] uppercase tracking-widest text-[#8A93BC] mb-2 font-medium">
@@ -170,30 +170,30 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
               <p className="text-xs uppercase tracking-widest text-[#8A93BC] font-semibold">Mjesta</p>
               <p className="text-sm font-semibold text-white">{paidCount} / {event.max_sudionika} popunjeno</p>
             </div>
-            <div
-              role="progressbar"
-              aria-valuenow={paidCount}
-              aria-valuemin={0}
-              aria-valuemax={event.max_sudionika}
-              aria-label="Popunjenost termina"
-              style={{ backgroundColor: '#1C2040' }}
-              className="h-2.5 rounded-full overflow-hidden mb-3"
-            >
+            {/* Progress bar — marker sits outside overflow-hidden track */}
+            <div className="relative mb-3">
               <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${pct}%`,
-                  background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF 0%, #22C55E 100%)' : '#6C47FF',
-                }}
-              />
-              <div className="absolute relative w-full">
+                role="progressbar"
+                aria-valuenow={paidCount}
+                aria-valuemin={0}
+                aria-valuemax={event.max_sudionika}
+                aria-label="Popunjenost termina"
+                style={{ backgroundColor: '#1C2040' }}
+                className="h-2.5 rounded-full overflow-hidden"
+              >
                 <div
-                  className="absolute h-2.5 w-1 bg-[#F59E0B] rounded-full -top-2.5"
+                  className="h-full rounded-full transition-all duration-700"
                   style={{
-                    left: `calc(${(event.min_sudionika / event.max_sudionika) * 100}% - 2px)`,
+                    width: `${pct}%`,
+                    background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF 0%, #22C55E 100%)' : '#6C47FF',
                   }}
                 />
               </div>
+              {/* Minimum threshold marker — outside overflow-hidden so it's visible */}
+              <div
+                className="absolute top-0 h-2.5 w-0.5 bg-[#F59E0B] rounded-full"
+                style={{ left: `calc(${(event.min_sudionika / event.max_sudionika) * 100}% - 1px)` }}
+              />
             </div>
             <div className="flex justify-between text-[11px] text-[#8A93BC] mt-1.5">
               <span>0</span>
@@ -232,8 +232,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
           )}
         </div>
 
-        {/* Right: Checkout card */}
-        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-6 sticky top-20">
+        {/* Right: Checkout card — shown first on mobile */}
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-6 order-1 md:order-2 md:sticky md:top-20">
           {justPaid ? (
             /* ── Success state ───────────────────────────────── */
             <div className="text-center py-4">
@@ -358,7 +358,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
 
       {/* Footer */}
       <footer style={{ borderTopColor: '#1C2040' }} className="border-t mt-10 py-5">
-        <div className="max-w-4xl mx-auto px-4 flex justify-between items-center">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
           <p className="text-[#8A93BC] text-xs">
             Powered by <span className="font-bold text-white">skupi</span>.
           </p>

@@ -102,7 +102,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
   return (
     <form onSubmit={handleContinue} className="space-y-3">
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg px-3 py-2">
+        <div className="text-xs rounded-lg px-3 py-2" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#FCA5A5' }}>
           {error}
         </div>
       )}
@@ -227,15 +227,15 @@ function StripePaymentForm({ naziv, cijenaTotal, ime, clientSecret, onSuccess, o
         <button
           type="button"
           onClick={onBack}
-          className="text-xs text-gray-400 hover:text-gray-600 transition"
+          className="text-xs text-[#8A93BC] hover:text-white transition"
         >
           ← Natrag
         </button>
-        <span className="text-xs text-gray-400">Unos kartice</span>
+        <span className="text-xs text-[#8A93BC]">Unos kartice</span>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg px-3 py-2">
+        <div className="text-xs rounded-lg px-3 py-2" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#FCA5A5' }}>
           {error}
         </div>
       )}
