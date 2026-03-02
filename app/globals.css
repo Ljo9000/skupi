@@ -63,6 +63,51 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--color-dark-500); }
 
 /* ============================================================
+   GLOBAL MOBILE INPUT FIXES
+   ============================================================ */
+
+/* 1. Prevent iOS zoom on focus — minimum 16px on all inputs */
+input, textarea, select {
+  font-size: max(16px, 1em);
+}
+
+/* 2. iOS Safari autofill text visibility fix.
+      Without this, autofilled inputs on dark backgrounds show white text
+      on the browser's yellow autofill background — impossible to read. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* Delay the autofill background so our bg color wins */
+  -webkit-transition: background-color 9999s ease-in-out 0s;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Dark inputs (organiser forms) — keep white text on autofill */
+[style*="2A2F55"]:-webkit-autofill,
+[style*="13162A"]:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+}
+
+/* Light inputs (buyer CheckoutForm / WaitingListForm) — dark text on autofill */
+.input-light:-webkit-autofill {
+  -webkit-text-fill-color: #111827 !important;
+  caret-color: #111827;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+}
+
+/* 3. Prevent horizontal scroll on mobile caused by overflowing elements */
+html, body {
+  overflow-x: hidden;
+}
+
+/* 4. Touch targets — Apple HIG + Google Material: min 44×44px */
+button, [role="button"] {
+  min-height: 44px;
+}
+
+/* ============================================================
    FORM ELEMENT OVERRIDES — dark native date/time/number inputs
    ============================================================ */
 input[type="date"],

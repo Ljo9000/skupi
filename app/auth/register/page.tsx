@@ -106,26 +106,40 @@ export default function RegisterPage() {
             )}
 
             <form onSubmit={handleRegister} className="space-y-4">
-              {[
-                { id: 'ime',   label: 'Ime i prezime', value: ime, setter: setIme, type: 'text', placeholder: 'Tvoje ime i prezime' },
-                { id: 'email', label: 'Email adresa',  value: email, setter: setEmail, type: 'email', placeholder: 'email@primjer.hr' },
-              ].map(({ id, label, value, setter, type, placeholder }) => (
-                <div key={label}>
-                  <label htmlFor={id} className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">{label}</label>
-                  <input
-                    id={id}
-                    type={type}
-                    value={value}
-                    onChange={(e) => setter(e.target.value)}
-                    placeholder={placeholder}
-                    required
-                    className="w-full px-3.5 py-2.5 rounded-md text-sm text-white placeholder-text-muted focus:outline-none transition"
-                    style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
-                    onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
-                    onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
-                  />
-                </div>
-              ))}
+              <div>
+                <label htmlFor="ime" className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">Ime i prezime</label>
+                <input
+                  id="ime"
+                  type="text"
+                  value={ime}
+                  onChange={(e) => setIme(e.target.value)}
+                  placeholder="Tvoje ime i prezime"
+                  required
+                  autoComplete="name"
+                  inputMode="text"
+                  className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
+                  style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
+                  onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
+                  onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">Email adresa</label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="email@primjer.hr"
+                  required
+                  autoComplete="email"
+                  inputMode="email"
+                  className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
+                  style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
+                  onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
+                  onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
+                />
+              </div>
 
               <div>
                 <label htmlFor="password" className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide">Lozinka</label>
@@ -138,8 +152,9 @@ export default function RegisterPage() {
                     placeholder="Najmanje 8 znakova"
                     minLength={8}
                     required
+                    autoComplete="new-password"
                     aria-describedby="password-strength"
-                    className="w-full px-3.5 py-2.5 pr-10 rounded-md text-sm text-white placeholder-text-muted focus:outline-none transition"
+                    className="w-full px-3.5 py-2.5 pr-10 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
                     style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
                     onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
                     onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}

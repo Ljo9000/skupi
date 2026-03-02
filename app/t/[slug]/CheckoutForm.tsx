@@ -78,7 +78,7 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
           appearance: {
             theme: 'stripe',
             variables: {
-              colorPrimary: '#2563eb',
+              colorPrimary: '#6C47FF',
               fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
               borderRadius: '8px',
             },
@@ -116,7 +116,8 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
           placeholder="Tvoje ime"
           required
           autoComplete="name"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition"
+          inputMode="text"
+          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-blue-500 transition"
         />
       </div>
 
@@ -129,14 +130,15 @@ export default function CheckoutForm({ eventId, naziv, cijenaTotal, onSuccess, o
           placeholder="email@primjer.hr"
           required
           autoComplete="email"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 transition"
+          inputMode="email"
+          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-blue-500 transition"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-2"
+        className="w-full py-3 bg-[#6C47FF] hover:bg-[#8B6FFF] disabled:opacity-60 text-white font-bold rounded-xl text-base transition flex items-center justify-center gap-2"
       >
         {loading ? (
           <>
@@ -242,7 +244,7 @@ function StripePaymentForm({ naziv, cijenaTotal, ime, clientSecret, onSuccess, o
       <button
         type="submit"
         disabled={loading || !stripe || !elements}
-        className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-2"
+        className="w-full py-3 bg-[#6C47FF] hover:bg-[#8B6FFF] disabled:opacity-60 text-white font-bold rounded-xl text-base transition flex items-center justify-center gap-2"
       >
         {loading ? (
           <>

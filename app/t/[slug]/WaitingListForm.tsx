@@ -73,7 +73,8 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           placeholder="Tvoje ime"
           required
           autoComplete="name"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500 transition"
+          inputMode="text"
+          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
         />
       </div>
 
@@ -86,7 +87,8 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           placeholder="email@primjer.hr"
           required
           autoComplete="email"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500 transition"
+          inputMode="email"
+          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
         />
       </div>
 
@@ -101,7 +103,8 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           onChange={e => setMobitel(e.target.value)}
           placeholder="+385 91 234 5678"
           autoComplete="tel"
-          className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500 transition"
+          inputMode="tel"
+          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
         />
       </div>
 

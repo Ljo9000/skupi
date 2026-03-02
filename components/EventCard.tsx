@@ -35,9 +35,11 @@ interface EventCardProps {
   isPast?: boolean
   /** Actual number of confirmed/paid participants fetched from payments table */
   confirmedCount?: number
+  /** Total amount collected for this event (iznos_vlasnika sum) in cents */
+  totalCollectedCents?: number
 }
 
-export default function EventCard({ event, isPast = false, confirmedCount }: EventCardProps) {
+export default function EventCard({ event, isPast = false, confirmedCount, totalCollectedCents }: EventCardProps) {
   const date = new Date(event.datum)
   const daysLeft = Math.ceil((date.getTime() - Date.now()) / 86400000)
   const rokPassed = new Date(event.rok_uplate) < new Date()
@@ -45,6 +47,19 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
   // Events that are still status='active' but deadline passed get amber badge
   const isExpired = event.status === 'active' && rokPassed
   const cfg = isExpired ? EXPIRED_CONFIG : (STATUS_CONFIG[event.status] ?? STATUS_CONFIG.cancelled)
+
+  // Left border color by status: rok istekao = yellow, cancelled = red, active = green, confirmed = purple
+  const LEFT_BORDER_COLOR = {
+    expired: '#F59E0B',
+    cancelled: '#EF4444',
+    active: '#22C55E',
+    confirmed: '#8B6FFF',
+  } as const
+  const leftBorderColor =
+    isExpired ? LEFT_BORDER_COLOR.expired
+    : event.status === 'cancelled' ? LEFT_BORDER_COLOR.cancelled
+    : event.status === 'confirmed' ? LEFT_BORDER_COLOR.confirmed
+    : LEFT_BORDER_COLOR.active
 
   // Use real confirmed count when available, otherwise fall back to min threshold
   const filled = confirmedCount ?? event.min_sudionika
@@ -57,13 +72,20 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
     >
       <div
         className="rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition-all duration-150"
-        style={{ backgroundColor: '#13162A', border: '1px solid #1C2040' }}
+        style={{
+          backgroundColor: '#13162A',
+          border: '1px solid #1C2040',
+          borderLeft: `3px solid ${leftBorderColor}`,
+          boxShadow: isExpired ? 'inset 4px 0 12px rgba(245,158,11,0.25)' : undefined,
+        }}
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = 'rgba(108,71,255,0.3)'
+          e.currentTarget.style.borderLeft = `3px solid ${leftBorderColor}`
           e.currentTarget.style.backgroundColor = 'rgba(19,22,42,0.97)'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.borderColor = '#1C2040'
+          e.currentTarget.style.borderLeft = `3px solid ${leftBorderColor}`
           e.currentTarget.style.backgroundColor = '#13162A'
         }}
       >
@@ -83,10 +105,19 @@ export default function EventCard({ event, isPast = false, confirmedCount }: Eve
           </div>
         </div>
 
-        {/* Right: price + progress + slots + badge + arrow */}
+        {/* Right: total value (primary) / per-person (secondary) + progress + slots + badge + arrow */}
         <div className="flex items-center gap-3 shrink-0 sm:ml-4">
-          <div className="text-sm font-bold text-white">
-            {(event.cijena_vlasnika / 100).toFixed(2)} €
+          <div className="flex flex-col items-end">
+            {totalCollectedCents != null && totalCollectedCents > 0 ? (
+              <>
+                <div className="text-base font-black leading-tight" style={{ color: '#22C55E' }}>
+                  {(totalCollectedCents / 100).toLocaleString('hr-HR', { minimumFractionDigits: 2 })} €
+                </div>
+                <div className="text-xs text-[#8A93BC]">{(event.cijena_vlasnika / 100).toFixed(2)} € / osoba</div>
+              </>
+            ) : (
+              <div className="text-sm font-bold text-white">{(event.cijena_vlasnika / 100).toFixed(2)} € / osoba</div>
+            )}
           </div>
           <div
             role="progressbar"

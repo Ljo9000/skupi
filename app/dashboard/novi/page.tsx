@@ -113,7 +113,7 @@ export default function NoviTerminPage() {
               }}
               onFocus={(e) => (e.currentTarget.style.borderColor = err('naziv') ? '#EF4444' : '#6C47FF')}
               onBlur={(e) => (e.currentTarget.style.borderColor = err('naziv') ? '#EF4444' : '#1C2040')}
-              className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition ${err('naziv') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
+              className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-base focus:outline-none transition ${err('naziv') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
             />
             {err('naziv') && <p id="naziv-error" className="text-red-400 text-xs mt-1">{err('naziv')}</p>}
           </div>
@@ -168,7 +168,7 @@ export default function NoviTerminPage() {
                   backgroundColor: '#2A2F55',
                   color: 'white'
                 }}
-                className="flex-1 px-3 py-2.5 text-sm focus:outline-none"
+                className="flex-1 px-3 py-2.5 text-base focus:outline-none"
               />
             </div>
             {err('cijena') && <p id="cijena-error" className="text-red-400 text-xs mt-1">{err('cijena')}</p>}
@@ -289,7 +289,7 @@ export default function NoviTerminPage() {
               }}
               onFocus={(e) => (e.currentTarget.style.borderColor = '#6C47FF')}
               onBlur={(e) => (e.currentTarget.style.borderColor = '#1C2040')}
-              className="w-full border-1.5 rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition resize-none focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
+              className="w-full border-1.5 rounded-md px-3.5 py-2.5 text-base focus:outline-none transition resize-none focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
             />
           </div>
 

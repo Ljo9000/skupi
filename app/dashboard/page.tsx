@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import EventCard from '@/components/EventCard'
+import ActiveEventsSection from '@/components/ActiveEventsSection'
+import PastEventsSection from '@/components/PastEventsSection'
 
 type EventStatus = 'active' | 'confirmed' | 'cancelled'
 
@@ -53,10 +54,12 @@ export default async function DashboardPage() {
   const totalCollectedCents = (allPayments ?? []).reduce((s: number, p: { iznos_vlasnika: number }) => s + (p.iznos_vlasnika ?? 0), 0)
   const totalCollectedEur = (totalCollectedCents / 100).toFixed(2)
 
-  // Build confirmed-participant count per event
+  // Build confirmed-participant count and total collected per event
   const confirmedCountMap: Record<string, number> = {}
-  for (const p of (allPayments ?? []) as { event_id: string }[]) {
+  const totalCollectedMap: Record<string, number> = {}
+  for (const p of (allPayments ?? []) as { event_id: string; iznos_vlasnika?: number }[]) {
     confirmedCountMap[p.event_id] = (confirmedCountMap[p.event_id] ?? 0) + 1
+    totalCollectedMap[p.event_id] = (totalCollectedMap[p.event_id] ?? 0) + (p.iznos_vlasnika ?? 0)
   }
 
   const now = new Date()
@@ -136,65 +139,19 @@ export default async function DashboardPage() {
       </div>
 
       {/* Active events */}
-      <section className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[11px] font-semibold text-[#8A93BC] uppercase tracking-[0.08em]">Aktivni termini</h2>
-          <span
-            className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
-            style={{
-              backgroundColor: 'rgba(108,71,255,0.13)',
-              color: '#6C47FF',
-            }}
-          >
-            {activeEvents.length}
-          </span>
-        </div>
-        {activeEvents.length === 0 ? (
-          <div
-            className="rounded-2xl p-12 text-center"
-            style={{
-              backgroundColor: '#13162A',
-              border: '1px dashed #1C2040',
-            }}
-          >
-            <p className="text-[#8A93BC] text-sm mb-4">📅 Nemaš aktivnih termina</p>
-            <Link
-              href="/dashboard/novi"
-              className="inline-block text-white text-sm font-semibold px-4 py-2.5 rounded-md transition bg-brand-purple hover:bg-brand-purple-light"
-            >
-              + Kreiraj prvi termin
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {activeEvents.map((event: Event) => (
-              <EventCard key={event.id} event={event} confirmedCount={confirmedCountMap[event.id] ?? 0} />
-            ))}
-          </div>
-        )}
-      </section>
+      <ActiveEventsSection
+        events={activeEvents}
+        confirmedCountMap={confirmedCountMap}
+        totalCollectedMap={totalCollectedMap}
+      />
 
       {/* Past events */}
       {pastEvents.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[11px] font-semibold text-[#8A93BC] uppercase tracking-[0.08em]">Termini s isteklim rokom</h2>
-            <span
-              className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                color: '#8A93BC',
-              }}
-            >
-              {pastEvents.length}
-            </span>
-          </div>
-          <div className="space-y-3">
-            {pastEvents.map((event: Event) => (
-              <EventCard key={event.id} event={event} isPast={true} confirmedCount={confirmedCountMap[event.id] ?? 0} />
-            ))}
-          </div>
-        </section>
+        <PastEventsSection
+          events={pastEvents}
+          confirmedCountMap={confirmedCountMap}
+          totalCollectedMap={totalCollectedMap}
+        />
       )}
     </div>
   )

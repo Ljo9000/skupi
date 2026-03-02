@@ -76,7 +76,9 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="email@primjer.hr"
                   required
-                  className="w-full px-3.5 py-2.5 rounded-md text-sm text-white placeholder-text-muted focus:outline-none transition"
+                  autoComplete="email"
+                  inputMode="email"
+                  className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
                   style={{
                     background: '#2A2F55',
                     border: '1.5px solid #1C2040',
@@ -105,7 +107,8 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     required
-                    className="w-full px-3.5 py-2.5 pr-10 rounded-md text-sm text-white placeholder-text-muted focus:outline-none transition"
+                    autoComplete="current-password"
+                    className="w-full px-3.5 py-2.5 pr-10 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
                     style={{
                       background: '#2A2F55',
                       border: '1.5px solid #1C2040',
