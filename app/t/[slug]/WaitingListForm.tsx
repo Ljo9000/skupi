@@ -65,7 +65,7 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
       )}
 
       <div>
-        <label className="block text-xs font-semibold text-gray-600 mb-1">Ime i prezime</label>
+        <label className="block text-xs font-semibold text-text-secondary mb-1 uppercase tracking-wide">Ime i prezime</label>
         <input
           type="text"
           value={ime}
@@ -74,12 +74,15 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           required
           autoComplete="name"
           inputMode="text"
-          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
+          className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
+          style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
+          onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
+          onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-gray-600 mb-1">Email adresa</label>
+        <label className="block text-xs font-semibold text-text-secondary mb-1 uppercase tracking-wide">Email adresa</label>
         <input
           type="email"
           value={email}
@@ -88,14 +91,17 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           required
           autoComplete="email"
           inputMode="email"
-          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
+          className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
+          style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
+          onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
+          onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
         />
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-gray-600 mb-1">
+        <label className="block text-xs font-semibold text-text-secondary mb-1 uppercase tracking-wide">
           Broj mobitela{' '}
-          <span className="font-normal text-gray-400">(opcionalno, za WhatsApp/Viber obavijest)</span>
+          <span className="font-normal text-text-muted normal-case">(opcionalno, za WhatsApp/Viber obavijest)</span>
         </label>
         <input
           type="tel"
@@ -104,7 +110,10 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
           placeholder="+385 91 234 5678"
           autoComplete="tel"
           inputMode="tel"
-          className="input-light w-full px-3 py-2.5 border border-gray-200 rounded-lg text-base text-gray-900 bg-white focus:outline-none focus:border-indigo-500 transition"
+          className="w-full px-3.5 py-2.5 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"
+          style={{ background: '#2A2F55', border: '1.5px solid #1C2040' }}
+          onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
+          onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
         />
       </div>
 
