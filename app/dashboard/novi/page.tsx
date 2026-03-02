@@ -75,7 +75,7 @@ export default function NoviTerminPage() {
   const isoRok = rokDatum ? `${format(rokDatum, 'yyyy-MM-dd')}T${rokVrijeme}` : ''
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6">
         <Link href="/dashboard" className="text-sm text-[#8A93BC] hover:text-white transition inline-flex items-center gap-1">
           <ArrowLeft size={16} aria-hidden="true" />
@@ -119,7 +119,7 @@ export default function NoviTerminPage() {
           </div>
 
           {/* Datum + Vrijeme */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label htmlFor="datum" className="block text-[11px] uppercase tracking-[0.06em] font-semibold text-[#A0A8C8] mb-1.5">
                 Datum <span className="text-red-400" aria-hidden="true">*</span>
@@ -246,7 +246,7 @@ export default function NoviTerminPage() {
               Rok uplate <span className="text-red-400" aria-hidden="true">*</span>
             </label>
             <input type="hidden" name="rok_uplate" value={isoRok} required />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label htmlFor="rok_d" className="block text-[11px] uppercase tracking-[0.06em] font-semibold text-[#A0A8C8] mb-1.5">Datum</label>
                 <DatePickerDropdown

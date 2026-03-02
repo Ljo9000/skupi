@@ -74,11 +74,11 @@ export default async function DashboardPage() {
     .sort((a: Event, b: Event) => new Date(b.datum).getTime() - new Date(a.datum).getTime())
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white tracking-tight">Pregled</h1>
+          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">Pregled</h1>
           <p className="text-[#A0A8C8] text-sm mt-1">Dobrodošao, {owner?.ime ?? authedUser.email} 👋</p>
         </div>
         <Link
@@ -92,7 +92,7 @@ export default async function DashboardPage() {
       {/* Stripe status banner */}
       {!owner?.stripe_onboarding_complete && (
         <div
-          className="rounded-xl p-4 mb-6 flex items-center justify-between"
+          className="rounded-xl p-4 mb-6 flex flex-wrap items-center justify-between gap-3"
           style={{
             backgroundColor: 'rgba(245,158,11,0.08)',
             border: '1px solid rgba(245,158,11,0.2)',

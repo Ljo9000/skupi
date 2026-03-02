@@ -21,7 +21,7 @@ export interface TerminiEvent {
 
 export default function TerminiPageClient({ events }: { events: TerminiEvent[] }) {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
       {/* ── Header ── */}
       <div className="mb-8">
@@ -32,7 +32,7 @@ export default function TerminiPageClient({ events }: { events: TerminiEvent[] }
           <ArrowLeft className="w-4 h-4" />
           Dashboard
         </Link>
-        <h1 className="text-4xl font-black text-white tracking-tight">Kalendar</h1>
+        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">Kalendar</h1>
         <p className="text-[#A0A8C8] text-sm mt-1">Svi tvoji termini</p>
       </div>
 

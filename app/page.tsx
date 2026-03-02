@@ -59,7 +59,7 @@ export default function LandingPage() {
       {/* ── NAV ─────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 h-[60px] flex items-center border-b border-dark-700"
            style={{ background: 'rgba(13,15,26,0.85)', backdropFilter: 'blur(12px)' }}>
-        <div className="max-w-6xl mx-auto w-full px-6 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 flex items-center justify-between">
           <span className="text-xl font-black tracking-tight">skupi.</span>
           <div className="flex items-center gap-2">
             <Link href="/auth/login"
@@ -80,7 +80,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none"
              style={{ background: 'radial-gradient(ellipse 80% 60% at 20% 0%, rgba(108,71,255,0.12) 0%, transparent 60%)' }} />
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid lg:grid-cols-[55%_45%] gap-12 items-center">
 
             {/* Left: Copy */}
@@ -205,12 +205,12 @@ export default function LandingPage() {
 
       {/* ── HOW IT WORKS ────────────────────────────────────── */}
       <section id="kako-funkcionira" className="py-24 border-t border-dark-700">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="mb-12">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">
               Kako funkcionira
             </div>
-            <h2 className="text-3xl font-black tracking-tight mb-3">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-3">
               Tri koraka. Svi plate. Idete.
             </h2>
             <p className="text-lg text-text-secondary max-w-xl leading-relaxed">
@@ -242,10 +242,10 @@ export default function LandingPage() {
 
       {/* ── FEATURES GRID ───────────────────────────────────── */}
       <section id="zasto-skupi" className="py-24 border-t border-dark-700">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="mb-12">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">Zašto skupi.</div>
-            <h2 className="text-3xl font-black tracking-tight">Organiziraš lako. Oni plaćaju lako.</h2>
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Organiziraš lako. Oni plaćaju lako.</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -266,10 +266,10 @@ export default function LandingPage() {
 
       {/* ── PRICING ─────────────────────────────────────────── */}
       <section id="cijene" className="py-24 border-t border-dark-700">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">Cijene</div>
-            <h2 className="text-3xl font-black tracking-tight mb-2">Transparentno i jednostavno</h2>
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">Transparentno i jednostavno</h2>
             <p className="text-text-secondary">Plaćaš samo kad skupiš uplate. Nema pretplate, nema skrivenih troškova.</p>
           </div>
 
@@ -309,10 +309,10 @@ export default function LandingPage() {
 
       {/* ── FAQ ─────────────────────────────────────────────── */}
       <section id="faq" className="py-24 border-t border-dark-700">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <div className="text-xs font-bold uppercase tracking-[0.1em] text-brand-purple mb-3">FAQ</div>
-            <h2 className="text-3xl font-black tracking-tight">Imaš pitanja?</h2>
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Imaš pitanja?</h2>
           </div>
 
           <div className="max-w-[680px] mx-auto divide-y divide-dark-700">
@@ -325,10 +325,10 @@ export default function LandingPage() {
 
       {/* ── BOTTOM CTA ──────────────────────────────────────── */}
       <section className="py-24 border-t border-dark-700">
-        <div className="max-w-6xl mx-auto px-6 text-center relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative">
           <div className="absolute inset-0 pointer-events-none"
                style={{ background: 'radial-gradient(ellipse at center, rgba(108,71,255,0.07) 0%, transparent 70%)' }} />
-          <h2 className="relative text-4xl font-black tracking-tight mb-3">Skupi svoju prvu ekipu.</h2>
+          <h2 className="relative text-2xl sm:text-4xl font-black tracking-tight mb-3">Skupi svoju prvu ekipu.</h2>
           <p className="relative text-lg text-text-secondary mb-8">
             Postavi detalje za 30 sekundi. Besplatno, bez kreditne kartice.
           </p>
@@ -350,7 +350,7 @@ export default function LandingPage() {
 
       {/* ── FOOTER ──────────────────────────────────────────── */}
       <footer className="border-t border-dark-700 py-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="text-lg font-black text-white">skupi.</div>
             <div className="flex items-center gap-1 text-xs text-text-muted mt-1">
