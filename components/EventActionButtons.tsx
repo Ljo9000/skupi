@@ -1,6 +1,6 @@
 'use client'
 
-import { Bell, XCircle } from 'lucide-react'
+import { XCircle } from 'lucide-react'
 import { closeEventAction } from '@/app/dashboard/termini/[id]/actions'
 
 interface EventActionButtonsProps {
@@ -12,7 +12,8 @@ interface EventActionButtonsProps {
 export default function EventActionButtons({ eventId, eventStatus, pendingCount }: EventActionButtonsProps) {
   return (
     <div className="mt-6 flex flex-col sm:flex-row gap-3">
-      {/* Pošalji podsjetnik — disabled if no pending payments */}
+      {/* Pošalji podsjetnik — TODO: implementirati email logiku prije aktiviranja */}
+      {/* Gumb sakriven dok nije implementiran onClick handler
       <button
         disabled={pendingCount === 0}
         title={pendingCount === 0 ? 'Svi sudionici su platili' : `Pošalji podsjetnik ${pendingCount} neplaćenim sudionicima`}
@@ -34,6 +35,7 @@ export default function EventActionButtons({ eventId, eventStatus, pendingCount 
           </span>
         )}
       </button>
+      */}
 
       {/* Zatvori termin — only show if event is still active */}
       {eventStatus === 'active' && (

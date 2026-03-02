@@ -113,7 +113,7 @@ export default function NoviTerminPage() {
               }}
               onFocus={(e) => (e.currentTarget.style.borderColor = err('naziv') ? '#EF4444' : '#6C47FF')}
               onBlur={(e) => (e.currentTarget.style.borderColor = err('naziv') ? '#EF4444' : '#1C2040')}
-              className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-base focus:outline-none transition ${err('naziv') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
+              className={`w-full border-[1.5px] rounded-md px-3.5 py-2.5 text-base focus:outline-none transition ${err('naziv') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
             />
             {err('naziv') && <p id="naziv-error" className="text-red-400 text-xs mt-1">{err('naziv')}</p>}
           </div>
@@ -150,10 +150,10 @@ export default function NoviTerminPage() {
             <label htmlFor="cijena" className="block text-[11px] uppercase tracking-[0.06em] font-semibold text-[#A0A8C8] mb-1.5">
               Cijena po osobi (€) <span className="text-red-400" aria-hidden="true">*</span>
             </label>
-            <div style={{ borderColor: err('cijena') ? '#EF4444' : '#1C2040' }} className="flex items-center border-1.5 rounded-md overflow-hidden transition focus-within:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
+            <div style={{ borderColor: err('cijena') ? '#EF4444' : '#1C2040' }} className="flex items-center border-[1.5px] rounded-md overflow-hidden transition focus-within:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
               onFocus={() => {}}
             >
-              <span style={{ backgroundColor: '#1C2040', borderRightColor: '#1C2040' }} className="px-3 py-2.5 text-sm text-[#8A93BC] border-r border-1.5 font-medium" aria-hidden="true">€</span>
+              <span style={{ backgroundColor: '#1C2040', borderRightColor: '#1C2040' }} className="px-3 py-2.5 text-sm text-[#8A93BC] border-r border-[1.5px] font-medium" aria-hidden="true">€</span>
               <input
                 id="cijena"
                 name="cijena"
@@ -211,7 +211,7 @@ export default function NoviTerminPage() {
                 }}
                 onFocus={(e) => (e.currentTarget.style.borderColor = err('min_sudionika') ? '#EF4444' : '#6C47FF')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = err('min_sudionika') ? '#EF4444' : '#1C2040')}
-                className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition ${err('min_sudionika') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
+                className={`w-full border-[1.5px] rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition ${err('min_sudionika') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
               />
               {err('min_sudionika') && <p id="min_sudionika-error" className="text-red-400 text-xs mt-1">{err('min_sudionika')}</p>}
             </div>
@@ -234,7 +234,7 @@ export default function NoviTerminPage() {
                 }}
                 onFocus={(e) => (e.currentTarget.style.borderColor = err('max_sudionika') ? '#EF4444' : '#6C47FF')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = err('max_sudionika') ? '#EF4444' : '#1C2040')}
-                className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition ${err('max_sudionika') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
+                className={`w-full border-[1.5px] rounded-md px-3.5 py-2.5 text-sm focus:outline-none transition ${err('max_sudionika') ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
               />
               {err('max_sudionika') && <p id="max_sudionika-error" className="text-red-400 text-xs mt-1">{err('max_sudionika')}</p>}
             </div>
@@ -245,7 +245,8 @@ export default function NoviTerminPage() {
             <label className="block text-[11px] uppercase tracking-[0.06em] font-semibold text-[#A0A8C8] mb-1.5">
               Rok uplate <span className="text-red-400" aria-hidden="true">*</span>
             </label>
-            <input type="hidden" name="rok_uplate" value={isoRok} required />
+            {/* required nema efekta na type="hidden" — validacija je na serveru */}
+            <input type="hidden" name="rok_uplate" value={isoRok} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label htmlFor="rok_d" className="block text-[11px] uppercase tracking-[0.06em] font-semibold text-[#A0A8C8] mb-1.5">Datum</label>
@@ -289,7 +290,7 @@ export default function NoviTerminPage() {
               }}
               onFocus={(e) => (e.currentTarget.style.borderColor = '#6C47FF')}
               onBlur={(e) => (e.currentTarget.style.borderColor = '#1C2040')}
-              className="w-full border-1.5 rounded-md px-3.5 py-2.5 text-base focus:outline-none transition resize-none focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
+              className="w-full border-[1.5px] rounded-md px-3.5 py-2.5 text-base focus:outline-none transition resize-none focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]"
             />
           </div>
 

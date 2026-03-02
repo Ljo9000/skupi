@@ -57,7 +57,8 @@ export default function LandingPage() {
     <main className="flex flex-col min-h-screen bg-dark-900 text-white">
 
       {/* ── NAV ─────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 h-[60px] flex items-center border-b border-dark-700"
+      <nav aria-label="Glavna navigacija"
+           className="sticky top-0 z-50 h-[60px] flex items-center border-b border-dark-700"
            style={{ background: 'rgba(13,15,26,0.85)', backdropFilter: 'blur(12px)' }}>
         <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 flex items-center justify-between">
           <span className="text-xl font-black tracking-tight">skupi.</span>
@@ -192,7 +193,7 @@ export default function LandingPage() {
                     <div className="text-[11px] text-text-muted">Naknada za uslugu</div>
                     <div className="text-xs font-semibold text-text-secondary">0.58 €</div>
                   </div>
-                  <button className="bg-brand-purple text-white text-sm font-bold px-4 py-1.5 rounded-md">
+                  <button tabIndex={-1} aria-hidden="true" className="bg-brand-purple text-white text-sm font-bold px-4 py-1.5 rounded-md">
                     Plati →
                   </button>
                 </div>

@@ -159,7 +159,7 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
               {event.min_sudionika} · {event.max_sudionika}
             </div>
             <div className="inline-flex items-center gap-1.5">
-              <AlertCircle size={14} aria-hidden="true" className="text-[#8A93BC]" />
+              <Clock size={14} aria-hidden="true" className="text-[#8A93BC]" />
               {rokDate.toLocaleDateString('hr-HR')} · {rokDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
@@ -191,6 +191,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
               </div>
               {/* Minimum threshold marker — outside overflow-hidden so it's visible */}
               <div
+                aria-label={`Minimalni broj sudionika: ${event.min_sudionika}`}
+                role="img"
                 className="absolute top-0 h-2.5 w-0.5 bg-[#F59E0B] rounded-full"
                 style={{ left: `calc(${(event.min_sudionika / event.max_sudionika) * 100}% - 1px)` }}
               />

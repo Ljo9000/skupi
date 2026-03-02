@@ -67,7 +67,7 @@ export default async function TerminDetaljPage({
   const vbText = encodeURIComponent(`🎉 Platite za "${event.naziv}"!\n${paymentUrl}`)
 
   return (
-    <div className="transparent min-h-screen">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Back link */}
         <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-[#8A93BC] hover:text-white transition">
@@ -149,7 +149,12 @@ export default async function TerminDetaljPage({
                   <div className="h-full rounded-full transition-all duration-500" style={{ width:`${pct}%`, background: paidCount >= event.min_sudionika ? 'linear-gradient(90deg, #6C47FF, #22C55E)':'linear-gradient(90deg, #6C47FF, #8B6FFF)' }} />
                 </div>
                 {/* Min marker outside overflow-hidden so it's visible */}
-                <div className="absolute top-0 h-[10px] w-0.5 bg-[#F59E0B] rounded-full" style={{ left:`calc(${minPct}% - 1px)` }} />
+                <div
+                  aria-label={`Minimalni broj sudionika: ${event.min_sudionika}`}
+                  role="img"
+                  className="absolute top-0 h-[10px] w-0.5 bg-[#F59E0B] rounded-full"
+                  style={{ left:`calc(${minPct}% - 1px)` }}
+                />
               </div>
               <div className="flex justify-between text-xs text-[#8A93BC] mb-3">
                 <span>0</span><span className="text-[#F59E0B] font-medium">min {event.min_sudionika}</span><span>max {event.max_sudionika}</span>
@@ -194,6 +199,7 @@ export default async function TerminDetaljPage({
                 <div className="bg-[#13162A] border border-[#1C2040] rounded-[16px] overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
+                      <caption className="sr-only">Popis uplata za termin {event.naziv}</caption>
                       <thead>
                         <tr className="border-b border-[#1C2040] bg-[#0D0F1A]">
                           <th className="text-left px-4 py-3 text-xs font-semibold text-[#8A93BC] uppercase tracking-wide">Ime</th>

@@ -79,13 +79,16 @@ export default function EventCard({ event, isPast = false, confirmedCount, total
           boxShadow: isExpired ? 'inset 4px 0 12px rgba(245,158,11,0.25)' : undefined,
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(108,71,255,0.3)'
-          e.currentTarget.style.borderLeft = `3px solid ${leftBorderColor}`
+          // Samo top/right/bottom border — left border ostaje nepromjenjen (status boja)
+          e.currentTarget.style.borderTopColor = 'rgba(108,71,255,0.3)'
+          e.currentTarget.style.borderRightColor = 'rgba(108,71,255,0.3)'
+          e.currentTarget.style.borderBottomColor = 'rgba(108,71,255,0.3)'
           e.currentTarget.style.backgroundColor = 'rgba(19,22,42,0.97)'
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = '#1C2040'
-          e.currentTarget.style.borderLeft = `3px solid ${leftBorderColor}`
+          e.currentTarget.style.borderTopColor = '#1C2040'
+          e.currentTarget.style.borderRightColor = '#1C2040'
+          e.currentTarget.style.borderBottomColor = '#1C2040'
           e.currentTarget.style.backgroundColor = '#13162A'
         }}
       >

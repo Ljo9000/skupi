@@ -155,8 +155,9 @@ export default function CancelClient({
               </button>
 
               <button
+                type="button"
                 onClick={() => router.push(`/t/${slug}`)}
-                className="w-full mt-3 py-3 rounded-xl text-sm font-semibold text-text-secondary hover:text-white transition"
+                className="w-full mt-3 py-3 rounded-xl text-sm font-semibold text-text-secondary hover:text-white border border-dark-700 hover:border-dark-500 transition"
               >
                 Odustani — zadrži rezervaciju
               </button>

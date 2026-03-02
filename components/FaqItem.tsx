@@ -32,11 +32,14 @@ export default function FaqItem({
           className={`text-text-muted shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
-      {open && (
-        <p id={answerId} className="text-sm text-text-secondary leading-relaxed pb-5 animate-fade-in">
-          {a}
-        </p>
-      )}
+      {/* Ostaje u DOM-u kako aria-controls uvijek može referencirati element */}
+      <p
+        id={answerId}
+        hidden={!open}
+        className="text-sm text-text-secondary leading-relaxed pb-5 animate-fade-in"
+      >
+        {a}
+      </p>
     </div>
   )
 }

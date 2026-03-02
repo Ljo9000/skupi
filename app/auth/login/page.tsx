@@ -118,11 +118,11 @@ export default function LoginPage() {
                   />
                   <button
                     type="button"
-                    tabIndex={-1}
+                    aria-label={showPassword ? 'Sakrij lozinku' : 'Prikaži lozinku'}
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary transition"
                   >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                   </button>
                 </div>
               </div>
@@ -133,8 +133,8 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-2 py-3 mt-2 font-semibold text-sm rounded-md transition disabled:opacity-60"
                 style={{ background: '#6C47FF', color: 'white' }}
-                onMouseEnter={(e) => { if (!loading) (e.target as HTMLElement).style.background = '#8B6FFF' }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.background = '#6C47FF' }}
+                onMouseEnter={(e) => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = '#8B6FFF' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#6C47FF' }}
               >
                 {loading ? (
                   <>

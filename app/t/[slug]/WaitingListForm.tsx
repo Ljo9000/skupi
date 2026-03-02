@@ -145,7 +145,7 @@ export default function WaitingListForm({ eventId, onSuccess }: Props) {
         type="submit"
         disabled={loading}
         className="w-full py-3 rounded-xl text-sm font-bold text-white transition flex items-center justify-center gap-2 disabled:opacity-60"
-        style={{ background: '#6366f1' }}
+        style={{ background: '#6C47FF' }}
       >
         {loading ? (
           <>

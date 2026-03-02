@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { LayoutDashboard, Calendar, ChevronDown } from 'lucide-react'
+import { LayoutDashboard, Calendar } from 'lucide-react'
 
 interface DashboardNavProps {
   ownerName: string
@@ -28,6 +28,7 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
 
   return (
     <nav
+      aria-label="Glavna navigacija"
       className="sticky top-0 z-50 h-[56px] flex items-center border-b"
       style={{ background: 'rgba(13,15,26,0.95)', backdropFilter: 'blur(12px)', borderColor: '#1C2040' }}
     >
@@ -58,12 +59,12 @@ export default function DashboardNav({ ownerName, stripeActive = true }: Dashboa
         {/* Right: status + user + logout */}
         <div className="flex items-center gap-2.5 shrink-0">
           <span
-            className="w-2 h-2 rounded-full animate-pulse shrink-0"
+            role="img"
             aria-label={stripeActive ? 'Stripe aktivan' : 'Stripe neaktivan'}
+            className="w-2 h-2 rounded-full animate-pulse shrink-0"
             style={{ background: stripeActive ? '#22C55E' : '#F59E0B', boxShadow: stripeActive ? '0 0 6px rgba(34,197,94,0.5)' : '0 0 6px rgba(245,158,11,0.5)' }}
           />
           <span className="text-sm text-white font-medium hidden sm:inline">{ownerName}</span>
-          <ChevronDown size={12} aria-hidden="true" className="text-[#8A93BC] hidden sm:block" />
           <div className="w-px h-4 bg-[#1C2040] hidden sm:block" />
           <button
             type="button"

@@ -159,9 +159,13 @@ export default function RegisterPage() {
                     onFocus={(e) => { e.target.style.borderColor = '#6C47FF'; e.target.style.boxShadow = '0 0 0 3px rgba(108,71,255,0.15)' }}
                     onBlur={(e)  => { e.target.style.borderColor = '#1C2040'; e.target.style.boxShadow = 'none' }}
                   />
-                  <button type="button" tabIndex={-1} onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary transition">
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  <button
+                    type="button"
+                    aria-label={showPassword ? 'Sakrij lozinku' : 'Prikaži lozinku'}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary transition"
+                  >
+                    {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                   </button>
                 </div>
                 {password.length > 0 && (

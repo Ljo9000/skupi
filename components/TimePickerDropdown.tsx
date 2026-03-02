@@ -40,7 +40,7 @@ export default function TimePickerDropdown({
   const [selected, setSelected] = useState<string | undefined>(value ?? defaultValue ?? '20:00')
   const containerRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
-  const selectedRef = useRef<HTMLButtonElement>(null)
+  const selectedRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
   const closeDropdown = () => {
@@ -107,7 +107,7 @@ export default function TimePickerDropdown({
           borderColor: error ? '#EF4444' : '#1C2040',
           color: displayValue ? 'white' : '#8A93BC',
         }}
-        className={`w-full border-1.5 rounded-md px-3.5 py-2.5 text-sm text-left focus:outline-none transition flex items-center justify-between gap-2 ${error ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
+        className={`w-full border-[1.5px] rounded-md px-3.5 py-2.5 text-sm text-left focus:outline-none transition flex items-center justify-between gap-2 ${error ? 'focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : 'focus:shadow-[0_0_0_3px_rgba(108,71,255,0.15)]'}`}
         onFocus={(e) => {
           e.currentTarget.style.borderColor = error ? '#EF4444' : '#6C47FF'
         }}
@@ -137,21 +137,22 @@ export default function TimePickerDropdown({
           }}
         >
           {timeSlots.map((time) => (
-            <button
+            <div
               key={time}
               ref={selected === time ? selectedRef : undefined}
               role="option"
               aria-selected={selected === time}
-              type="button"
+              tabIndex={0}
               onClick={() => handleSelect(time)}
-              className={`w-full px-3.5 py-2.5 text-sm text-left transition ${
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(time) } }}
+              className={`w-full px-3.5 py-2.5 text-sm text-left transition cursor-pointer ${
                 selected === time
                   ? 'bg-[#6C47FF] text-white'
                   : 'text-[#E4E8F7] hover:bg-[rgba(108,71,255,0.15)]'
               }`}
             >
               {time}
-            </button>
+            </div>
           ))}
         </div>
       )}
