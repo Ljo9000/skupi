@@ -105,7 +105,7 @@ export default function LoginPage() {
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Unesi lozinku"
                     required
                     autoComplete="current-password"
                     className="w-full px-3.5 py-2.5 pr-10 rounded-md text-base text-white placeholder-text-muted focus:outline-none transition"

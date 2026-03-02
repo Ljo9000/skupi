@@ -81,10 +81,14 @@ export async function POST(request: NextRequest) {
     const iznos_fee = event.service_fee
 
     // Create Stripe PaymentIntent via Connect (destination charges)
+    // payment_method_types: ['card'] disables Stripe Link and other wallets —
+    // prevents the "save card for next time" popup that appears immediately
+    // after the PaymentElement loads and confuses users.
     const paymentIntent = await stripe.paymentIntents.create({
       amount: iznos_total,
       currency: 'eur',
       capture_method: captureMethod,
+      payment_method_types: ['card'],
       application_fee_amount: iznos_fee,
       transfer_data: { destination: stripeAccountId },
       on_behalf_of: stripeAccountId,
