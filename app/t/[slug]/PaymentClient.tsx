@@ -129,8 +129,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
 
       <div className="max-w-4xl mx-auto px-4 py-8 grid gap-5 md:grid-cols-[1fr_360px] items-start">
 
-        {/* Left: Event info — shown below checkout on mobile */}
-        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden order-2 md:order-1">
+        {/* Left: Event info */}
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl overflow-hidden">
           {/* Event header */}
           <div className="bg-dark-800 p-6 border-b border-[#1C2040]">
             <p className="text-[11px] uppercase tracking-widest text-[#8A93BC] mb-2 font-medium">
@@ -232,8 +232,8 @@ export default function PaymentClient({ event, ownerName, initialPaidCount, init
           )}
         </div>
 
-        {/* Right: Checkout card — shown first on mobile */}
-        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-6 order-1 md:order-2 md:sticky md:top-20">
+        {/* Right: Checkout card */}
+        <div style={{ backgroundColor: '#13162A', borderColor: '#1C2040' }} className="border rounded-2xl p-6 md:sticky md:top-20">
           {justPaid ? (
             /* ── Success state ───────────────────────────────── */
             <div className="text-center py-4">
