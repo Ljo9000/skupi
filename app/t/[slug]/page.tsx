@@ -50,8 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [
         {
           url: '/og-default.png',
-          width: 1200,
-          height: 630,
+          width: 600,
+          height: 600,
           alt: event.naziv,
         },
       ],
